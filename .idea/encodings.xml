@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/techlab-amazon-develop/amazon-application/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-amazon-develop/amazon-application/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-amazon-develop/amazon-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-amazon-develop/amazon-core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-amazon-develop/amazon-dtos/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-amazon-develop/amazon-dtos/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-amazon-develop/amazon-liquibase/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-amazon-develop/amazon-liquibase/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-amazon-develop/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-amazon-develop/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-paypal-develop/paypal-application/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-paypal-develop/paypal-application/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-paypal-develop/paypal-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-paypal-develop/paypal-core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-paypal-develop/paypal-dtos/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-paypal-develop/paypal-dtos/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-paypal-develop/paypal-liquibase/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-paypal-develop/paypal-liquibase/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-paypal-develop/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-paypal-develop/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-pms-develop/pms-application/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-pms-develop/pms-application/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-pms-develop/pms-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-pms-develop/pms-core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-pms-develop/pms-dtos/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-pms-develop/pms-dtos/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-pms-develop/pms-liquibase/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-pms-develop/pms-liquibase/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-pms-develop/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-pms-develop/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-visa-develop/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-visa-develop/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-visa-develop/visa-aplication/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-visa-develop/visa-aplication/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-visa-develop/visa-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-visa-develop/visa-core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-visa-develop/visa-dtos/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-visa-develop/visa-dtos/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-visa-develop/visa-liquibase/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/techlab-visa-develop/visa-liquibase/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

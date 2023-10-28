@@ -1,6 +1,6 @@
 package it.ringmaster.api;
 
-import it.ringmaster.pms.api.PaymentDto;
+import it.ringmaster.PaymentDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-//@Slf4j
+@Slf4j
 @RequestMapping("/api/pms/amazon-pay/payments")
 @AllArgsConstructor
 public class PaymentController {

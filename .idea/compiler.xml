@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="visa-liquibase" />
+        <module name="amazon-dtos" />
+        <module name="paypal-dtos" />
+        <module name="visa-aplication" />
+        <module name="visa-dtos" />
+        <module name="amazon-application" />
+        <module name="pms-core" />
+        <module name="visa-core" />
+        <module name="amazon-core" />
+        <module name="paypal-core" />
+        <module name="paypal-application" />
+        <module name="paypal-liquibase" />
+        <module name="pms-dtos" />
+        <module name="pms-liquibase (2)" />
+        <module name="pms-application" />
+        <module name="pms-liquibase (1)" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="pms-liquibase" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
