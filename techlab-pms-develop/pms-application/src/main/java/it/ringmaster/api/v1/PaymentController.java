@@ -2,8 +2,10 @@ package it.ringmaster.api.v1;
 
 import it.ringmaster.pms.api.PaymentDto;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -11,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/pms/payment-methods")
 @AllArgsConstructor
+@Slf4j
 public class PaymentController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
