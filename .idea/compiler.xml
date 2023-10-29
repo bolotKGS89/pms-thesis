@@ -10,7 +10,6 @@
         <module name="visa-liquibase" />
         <module name="amazon-dtos" />
         <module name="paypal-dtos" />
-        <module name="visa-aplication" />
         <module name="visa-dtos" />
         <module name="amazon-application" />
         <module name="pms-core" />
@@ -20,6 +19,7 @@
         <module name="paypal-application" />
         <module name="paypal-liquibase" />
         <module name="pms-dtos" />
+        <module name="visa-application" />
         <module name="pms-liquibase (2)" />
         <module name="pms-application" />
         <module name="pms-liquibase (1)" />
