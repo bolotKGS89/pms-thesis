@@ -1,17 +1,44 @@
 version: '3'
 services:
-  techlab-pms-develop:
-    build: ./techlab-pms-develop
-    container_name: techlab-pms-develop
-
   techlab-amazon-develop:
     build: ./techlab-amazon-develop
     container_name: techlab-amazon-develop
+    hostname: amazon
 
   techlab-paypal-develop:
     build: ./techlab-paypal-develop
     container_name: techlab-paypal-develop
+    hostname: paypal
 
   techlab-visa-develop:
     build: ./techlab-visa-develop
     container_name: techlab-visa-develop
+    hostname: visa
+
+  techlab-pms-develop:
+      build: ./techlab-pms-develop
+      container_name: techlab-pms-develop
+      hostname: pms-gateway
+      depends_on:
+        - techlab-amazon-develop
+        - techlab-paypal-develop
+        - techlab-visa-develop
+
+  techlab-ugo:
+      build: ./techlab-ugo
+      container_name: techlab-ugo
+      hostname: ugo
+
+  techlab-ewallet:
+    build: ./techlab-ewallet
+    container_name: techlab-ewallet
+    hostname: ewallet
+
+  postgres:
+    image: postgres
+    container_name: postgres-db
+    hostname: postgres
+    environment:
+      POSTGRES_DB: ugo, ewallet, pms
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password

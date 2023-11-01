@@ -13,6 +13,7 @@
         <module name="visa-dtos" />
         <module name="amazon-application" />
         <module name="pms-core" />
+        <module name="amazon-liquibase" />
         <module name="visa-core" />
         <module name="amazon-core" />
         <module name="paypal-core" />
@@ -20,13 +21,23 @@
         <module name="paypal-liquibase" />
         <module name="pms-dtos" />
         <module name="visa-application" />
-        <module name="pms-liquibase (2)" />
         <module name="pms-application" />
-        <module name="pms-liquibase (1)" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="pms-liquibase" target="11" />
+      <module name="ewl-server" target="11" />
+      <module name="pms-liquibase (1)" target="11" />
+      <module name="pms-liquibase (2)" target="11" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="ewl-server" options="-Amapstruct.defaultComponentModel=spring" />
+      <module name="pms-application" options="" />
+      <module name="pms-core" options="" />
+      <module name="pms-dtos" options="" />
+      <module name="pms-liquibase (2)" options="" />
+      <module name="techlab-pms-develop" options="" />
+    </option>
   </component>
 </project>

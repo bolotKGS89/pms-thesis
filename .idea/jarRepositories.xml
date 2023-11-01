@@ -21,5 +21,10 @@
       <option name="name" value="JBoss Community repository" />
       <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="packagecloud-fabio_corso" />
+      <option name="name" value="packagecloud-fabio_corso" />
+      <option name="url" value="https://packagecloud.io/fabio_corso/techlab-metaverse/maven2" />
+    </remote-repository>
   </component>
 </project>
