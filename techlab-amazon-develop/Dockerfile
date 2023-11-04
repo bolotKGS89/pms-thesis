@@ -2,7 +2,7 @@
 FROM maven:3.8.4-openjdk-17 as build
 WORKDIR /app
 COPY . .
-RUN mvn clean install
+RUN mvn clean package
 
 # Create a new image for the runtime
 FROM openjdk:17

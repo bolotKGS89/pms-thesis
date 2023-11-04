@@ -4,16 +4,35 @@ services:
     build: ./techlab-amazon-develop
     container_name: techlab-amazon-develop
     hostname: amazon
+    links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+
 
   techlab-paypal-develop:
     build: ./techlab-paypal-develop
     container_name: techlab-paypal-develop
     hostname: paypal
+    links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
 
   techlab-visa-develop:
     build: ./techlab-visa-develop
     container_name: techlab-visa-develop
     hostname: visa
+    links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
 
   techlab-pms-develop:
       build: ./techlab-pms-develop
@@ -23,16 +42,34 @@ services:
         - techlab-amazon-develop
         - techlab-paypal-develop
         - techlab-visa-develop
+      links:
+        - fluentd
+      logging:
+        driver: "fluentd"
+        options:
+          fluentd-address: localhost:24224
 
   techlab-ugo:
       build: ./techlab-ugo
       container_name: techlab-ugo
       hostname: ugo
+      links:
+        - fluentd
+      logging:
+        driver: "fluentd"
+        options:
+          fluentd-address: localhost:24224
 
   techlab-ewallet:
     build: ./techlab-ewallet
     container_name: techlab-ewallet
     hostname: ewallet
+    links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
 
   postgres:
     image: postgres
@@ -42,3 +79,14 @@ services:
       POSTGRES_DB: ugo, ewallet, pms
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: password
+
+  fluentd:
+    image: fluentd:latest
+    hostname: fluentd
+    volumes:
+      - ${HOME}/fluentd/fluent.conf:/fluentd/etc/fluent.conf
+    environment:
+      HOME: /home/bolot
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
