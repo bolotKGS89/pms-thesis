@@ -17,7 +17,7 @@ public class BalanceService {
     }
 
     public Balance retrieveBalance() throws AuthenticationException,
-            InvalidRequestException, APIConnectionException, CardException, APIException {
-        return Balance.retrieve();
+            InvalidRequestException,  CardException {
+        return null;
     }
 }

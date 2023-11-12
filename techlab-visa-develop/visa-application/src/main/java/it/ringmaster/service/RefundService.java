@@ -22,8 +22,8 @@ public class RefundService {
         Stripe.apiKey = secretKey;
     }
 
-    public Refund create(RefundVisaDto refundVisaDto) throws APIConnectionException,
-            APIException, AuthenticationException, InvalidRequestException, CardException {
+    public Refund create(RefundVisaDto refundVisaDto) throws
+            StripeException {
         Map<String, Object> chargeParams = new HashMap<>();
         chargeParams.put("id", refundVisaDto.getId());
         chargeParams.put("amount", refundVisaDto.getAmount());
@@ -33,13 +33,12 @@ public class RefundService {
         return Refund.create(chargeParams);
     }
 
-    public Refund retrieve(String id) throws APIConnectionException,
-            APIException, AuthenticationException, InvalidRequestException, CardException{
+    public Refund retrieve(String id) throws
+             StripeException {
         return Refund.retrieve(id);
     }
 
-    public Refund update(String id, RefundVisaDto refundVisaDto) throws AuthenticationException,
-            InvalidRequestException, APIConnectionException, CardException, APIException {
+    public Refund update(String id, RefundVisaDto refundVisaDto) throws StripeException {
         Refund refund = Refund.retrieve(id);
         Map<String, Object> chargeParams = new HashMap<>();
         chargeParams.put("id", refundVisaDto.getId());
@@ -49,8 +48,8 @@ public class RefundService {
         return refund.update(chargeParams);
     }
 
-    public RefundCollection getAll(Integer limit) throws AuthenticationException,
-            InvalidRequestException, APIConnectionException, CardException, APIException {
+    public RefundCollection getAll(Integer limit) throws StripeException
+            {
         Map<String, Object> params = new HashMap<>();
         params.put("limit", limit);
 

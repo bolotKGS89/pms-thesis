@@ -1,7 +1,8 @@
 package it.ringmaster.api;
 
+
 import it.ringmaster.PaymentDto;
-import it.ringmaster.service.PaymentService;
+import it.ringmaster.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -11,34 +12,37 @@ import java.io.UnsupportedEncodingException;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/paypal/payment")
-public class PaymentController {
-
+@RequestMapping("/api/paypal/order")
+public class OrderController {
     @Autowired
-    private PaymentService paymentService;
+    private OrderService orderService;
+
 
     @PostMapping(path = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public PaymentDto create(@RequestBody PaymentDto paymentDto) throws UnsupportedEncodingException {
-//        String response = orderService.createOrder();
-//        System.out.println(response);
+        String response = orderService.createOrder();
+        System.out.println(response);
         return null;
     }
 
     @GetMapping(path = "/retrieve/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public PaymentDto retrieve(@PathVariable String id) {
-        String response = paymentService.retrievePayment(id);
+        String response = orderService.retrieveOrder(id);
+        System.out.println(response);
         return null;
     }
 
     @PostMapping(path = "/capture/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public PaymentDto capture(@PathVariable String id) {
-        String response = paymentService.capturePayment(id);
+        String response = orderService.captureOrder(id);
+        System.out.println(response);
         return null;
     }
 
-    @PostMapping(path = "/void/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public PaymentDto voidPayment(@PathVariable String id) {
-//        String response = paymentService.capturePayment(id);
+    @PostMapping(path = "/confirm/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public PaymentDto confirm(@PathVariable String id) {
+        String response = orderService.confirmOrder(id);
+        System.out.println(response);
         return null;
     }
 }
