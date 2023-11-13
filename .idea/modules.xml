@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/techlab-amazon-develop/amazon-liquibase/amazon-liquibase.iml" filepath="$PROJECT_DIR$/techlab-amazon-develop/amazon-liquibase/amazon-liquibase.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/pms-thesis.iml" filepath="$PROJECT_DIR$/.idea/pms-thesis.iml" />
     </modules>
   </component>

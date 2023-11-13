@@ -67,6 +67,7 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <version>3.0.0</version> <!-- Use the latest version -->
         </dependency>
+
     </dependencies>
 
     <pluginRepositories>

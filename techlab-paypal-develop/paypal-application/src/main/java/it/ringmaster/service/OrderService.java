@@ -35,6 +35,8 @@ public class OrderService {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
+    private Paypal;
+
     public String confirmOrder(String id) {
         ResponseEntity<String> response = this.confirmById(id);
         return parseStatus(response.getBody());
@@ -140,13 +142,17 @@ public class OrderService {
 
     public String createOrder() {
         ResponseEntity<String> response = this.makePaymentPost();
+        System.out.println(response.getBody());
         return parseStatus(response.getBody());
     }
 
     private ResponseEntity<String> makePaymentPost()  {
         HttpClient httpClient = HttpClient.newHttpClient();
         // Construct PayPal API request payload (customize as needed)
-        String orderPayload = "{ \"intent\": \"CAPTURE\", \"purchase_units\": [ { \"amount\": { \"currency_code\": \"USD\", \"value\": \"10.00\" } } ] }";
+        String orderPayload = "\"{ \\\"intent\\\": \\\"CAPTURE\\\", \\\"purchase_units\\\":" +
+                " [ { \\\"reference_id\\\": \\\"d9f80740-38f0-11e8-b467-0ed5f89f718b\\\", " +
+                "\\\"amount\\\": { \\\"currency_code\\\": \\\"USD\\\", \\\"value\\\": \\\"100.00\\\" } } ]," +
+                " \\\"payment_source\\\": { \\\"paypal\\\": { \\\"experience_context\\\": { \\\"payment_method_preference\\\": \\\"IMMEDIATE_PAYMENT_REQUIRED\\\", \\\"brand_name\\\": \\\"EXAMPLE INC\\\", \\\"locale\\\": \\\"en-US\\\", \\\"landing_page\\\": \\\"LOGIN\\\", \\\"shipping_preference\\\": \\\"SET_PROVIDED_ADDRESS\\\", \\\"user_action\\\": \\\"PAY_NOW\\\", \\\"return_url\\\": \\\"https://example.com/returnUrl\\\", \\\"cancel_url\\\": \\\"https://example.com/cancelUrl\\\" } } } }\"";
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(PAYPAL_API_URL))

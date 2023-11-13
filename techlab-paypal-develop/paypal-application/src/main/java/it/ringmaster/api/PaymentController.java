@@ -19,8 +19,8 @@ public class PaymentController {
 
     @PostMapping(path = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public PaymentDto create(@RequestBody PaymentDto paymentDto) throws UnsupportedEncodingException {
-//        String response = orderService.createOrder();
-//        System.out.println(response);
+        String res = paymentService.makePayment();
+        System.out.println(res);
         return null;
     }
 

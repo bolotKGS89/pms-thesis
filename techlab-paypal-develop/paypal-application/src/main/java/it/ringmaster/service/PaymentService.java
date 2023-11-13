@@ -27,7 +27,7 @@ public class PaymentService {
     @Value("${paypal.secret}")
     private String secret;
 
-    private static final String PAYPAL_API_URL = "https://api-m.sandbox.paypal.com/v2/payments";
+    private static final String PAYPAL_API_URL = "https://api-m.sandbox.paypal.com/v1/payments";
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -39,6 +39,40 @@ public class PaymentService {
     public String capturePayment(String id) {
         ResponseEntity<String> response = this.captureById(id);
         return parseStatus(response.getBody());
+    }
+
+    public String makePayment() {
+        ResponseEntity<String> response = this.createPayment();
+        return parseStatus(response.getBody());
+    }
+
+    private ResponseEntity<String> createPayment() {
+        HttpClient httpClient = HttpClient.newHttpClient();
+
+        String payload = "{ \"intent\": \"sale\", " +
+                "\"payer\": { \"payment_method\": \"paypal\" }" +
+                "}";
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(PAYPAL_API_URL + "/payment"))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Basic " + Base64.getEncoder().encodeToString((clientId + ":" + secret).getBytes()))
+                .POST(HttpRequest.BodyPublishers.ofString(payload))
+                .build();
+
+        try {
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 201) {
+                // Parse the JSON response
+                return ResponseEntity.status(response.statusCode()).body(response.body());
+            } else {
+                // Handle error response
+                return ResponseEntity.status(response.statusCode()).body("Error getting creating payment");
+            }
+        } catch (IOException | InterruptedException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error making PayPal API request");
+        }
     }
 
     private ResponseEntity<String> captureById(String id) {

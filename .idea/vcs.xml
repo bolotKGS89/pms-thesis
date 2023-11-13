@@ -2,6 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/techlab-eureka-develop" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/techlab-ewallet" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/techlab-ugo" vcs="Git" />
   </component>
