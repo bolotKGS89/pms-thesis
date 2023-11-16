@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -34,8 +32,6 @@ public class OrderService {
     private static final String PAYPAL_API_URL = "https://api-m.sandbox.paypal.com/v2/checkout/orders";
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
-
-    private Paypal;
 
     public String confirmOrder(String id) {
         ResponseEntity<String> response = this.confirmById(id);

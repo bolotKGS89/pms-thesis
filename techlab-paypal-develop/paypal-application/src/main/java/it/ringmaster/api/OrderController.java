@@ -12,10 +12,15 @@ import java.io.UnsupportedEncodingException;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/paypal/order")
+@RequestMapping("/paypal")
 public class OrderController {
     @Autowired
     private OrderService orderService;
+
+    @GetMapping(path = "/test")
+    public String check() {
+        return "test Order controller";
+    }
 
 
     @PostMapping(path = "/create", produces = MediaType.APPLICATION_JSON_VALUE)

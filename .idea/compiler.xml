@@ -15,7 +15,6 @@
         <module name="pms-core" />
         <module name="amazon-liquibase" />
         <module name="visa-core" />
-        <module name="demo" />
         <module name="pms-liquibase" />
         <module name="amazon-core" />
         <module name="paypal-core" />
@@ -27,6 +26,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="demo" target="17" />
       <module name="ewl-server" target="11" />
       <module name="pms-liquibase (1)" target="11" />
       <module name="pms-liquibase (2)" target="11" />
@@ -37,6 +37,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="demo" options="-parameters" />
       <module name="ewl-server" options="-Amapstruct.defaultComponentModel=spring" />
+      <module name="paypal-application" options="" />
       <module name="pms-application" options="" />
       <module name="pms-core" options="" />
       <module name="pms-dtos" options="" />

@@ -3,79 +3,93 @@ services:
   techlab-amazon-develop:
     build: ./techlab-amazon-develop
     container_name: techlab-amazon-develop
-    hostname: amazon
     links:
       - fluentd
+      - consul-server
     logging:
       driver: "fluentd"
       options:
         fluentd-address: localhost:24224
-
+    networks:
+        - microservices-network
 
   techlab-paypal-develop:
     build: ./techlab-paypal-develop
     container_name: techlab-paypal-develop
-    hostname: paypal
+    hostname: techlab-paypal-develop
     links:
       - fluentd
     logging:
       driver: "fluentd"
       options:
         fluentd-address: localhost:24224
+    networks:
+      - microservices-network
 
   techlab-visa-develop:
     build: ./techlab-visa-develop
     container_name: techlab-visa-develop
-    hostname: visa
     links:
       - fluentd
     logging:
       driver: "fluentd"
       options:
         fluentd-address: localhost:24224
+    networks:
+      - microservices-network
+
+  consul-server:
+    container_name: consul-server
+    image: consul:1.14.8
+    hostname: consul-server
+    ports:
+      - "8500:8500"
+    command: 'agent -server -bootstrap-expect=1 -ui -bind=0.0.0.0 -client=0.0.0.0'
+    networks:
+      - microservices-network
+
 
   techlab-pms-develop:
       build: ./techlab-pms-develop
       container_name: techlab-pms-develop
-      hostname: pms-gateway
       depends_on:
         - techlab-amazon-develop
         - techlab-paypal-develop
         - techlab-visa-develop
       links:
         - fluentd
+        - consul-server
       logging:
         driver: "fluentd"
         options:
           fluentd-address: localhost:24224
+      ports:
+        - "8080:8080"
+      networks:
+        - microservices-network
+
 
   techlab-ugo:
       build: ./techlab-ugo
-      container_name: techlab-ugo
-      hostname: ugo
       links:
         - fluentd
       logging:
         driver: "fluentd"
         options:
           fluentd-address: localhost:24224
+      networks:
+        - microservices-network
 
   techlab-ewallet:
     build: ./techlab-ewallet
-    container_name: techlab-ewallet
-    hostname: ewallet
     links:
       - fluentd
     logging:
       driver: "fluentd"
       options:
         fluentd-address: localhost:24224
-
-  eureka-server:
-    build: ./techlab-eureka-develop
-    container_name: techlab-eureka
-    ports:
-      - "8761:8761"
+    networks:
+      - microservices-network
 
   postgres:
     image: postgres
@@ -85,6 +99,8 @@ services:
       POSTGRES_DB: ugo, ewallet, pms
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: password
+    networks:
+      - microservices-network
 
   fluentd:
     image: fluentd:latest
@@ -96,3 +112,9 @@ services:
     ports:
       - "24224:24224"
       - "24224:24224/udp"
+    networks:
+      - microservices-network
+
+networks:
+  microservices-network:
+    driver: bridge

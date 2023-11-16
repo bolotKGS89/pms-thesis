@@ -11,4 +11,4 @@ COPY --from=build /app/pms-application/target/pms-application-1.0-SNAPSHOT.jar a
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]

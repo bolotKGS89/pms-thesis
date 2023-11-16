@@ -41,7 +41,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>6.0.6</version>
+            <version>6.0.0</version>
         </dependency>
         <dependency>
             <groupId>it.ringmaster</groupId>
@@ -55,11 +55,17 @@
             <version>3.1.5</version>
         </dependency>
 
-        <!-- Apache Tomcat as an embedded web server -->
+        <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.13</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <version>3.1.2</version>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>3.0.0</version> <!-- Use the latest version -->
         </dependency>
     </dependencies>
 
