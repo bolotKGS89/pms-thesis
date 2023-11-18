@@ -17,16 +17,12 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @GetMapping(path = "/test")
-    public String check() {
-        return "test Order controller";
-    }
-
-
     @PostMapping(path = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public PaymentDto create(@RequestBody PaymentDto paymentDto) throws UnsupportedEncodingException {
         String response = orderService.createOrder();
-        System.out.println(response);
+        System.out.println(paymentDto.getPayId());
+        System.out.println(paymentDto.getRedirectUrl());
+        System.out.println(paymentDto.getStatus());
         return null;
     }
 

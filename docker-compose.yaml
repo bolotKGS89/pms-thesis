@@ -29,6 +29,7 @@ services:
   techlab-visa-develop:
     build: ./techlab-visa-develop
     container_name: techlab-visa-develop
+    hostname: techlab-visa-develop
     links:
       - fluentd
     logging:
@@ -58,7 +59,6 @@ services:
         - techlab-visa-develop
       links:
         - fluentd
-        - consul-server
       logging:
         driver: "fluentd"
         options:
@@ -67,7 +67,6 @@ services:
         - "8080:8080"
       networks:
         - microservices-network
-
 
   techlab-ugo:
       build: ./techlab-ugo
