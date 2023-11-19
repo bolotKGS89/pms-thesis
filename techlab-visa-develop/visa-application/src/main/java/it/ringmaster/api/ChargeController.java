@@ -3,12 +3,16 @@ package it.ringmaster.api;
 
 import com.stripe.exception.*;
 import com.stripe.model.Charge;
+import com.stripe.model.ChargeCollection;
 import it.ringmaster.PaymentVisaDto;
+import it.ringmaster.ResponseDto;
 import it.ringmaster.service.ChargeService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,37 +27,85 @@ public class ChargeController {
     private ChargeService service;
 
     @PostMapping(path = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public PaymentVisaDto create(@RequestBody PaymentVisaDto paymentDto) throws StripeException {
-        paymentDto.setDescription("Example charge");
-        paymentDto.setCurrency(PaymentVisaDto.Currency.EUR);
-        Charge charge = service.charge(paymentDto);
-        return null;
+    public ResponseEntity<ResponseDto> create(@RequestBody PaymentVisaDto paymentDto) {
+        try {
+            Charge charge = service.charge(paymentDto);
+            ResponseDto responseDto = new ResponseDto();
+            responseDto.setId(charge.getId());
+            responseDto.setBalanceTransaction(charge.getBalanceTransaction());
+            responseDto.setAmount(charge.getAmount());
+            responseDto.setCreated(charge.getCreated());
+            responseDto.setCurrency(charge.getCurrency());
+            responseDto.setDescription(charge.getDescription());
+            return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
+        } catch (StripeException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping(path = "/retrieve/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public PaymentVisaDto retrieve(@PathVariable String id) throws StripeException {
-        Charge charge = service.retrieve(id);
-        return null;
+    public ResponseEntity<ResponseDto> retrieve(@PathVariable String id) {
+        try {
+            Charge charge = service.retrieve(id);
+            ResponseDto responseDto = new ResponseDto();
+            responseDto.setId(charge.getId());
+            responseDto.setBalanceTransaction(charge.getBalanceTransaction());
+            responseDto.setAmount(charge.getAmount());
+            responseDto.setCreated(charge.getCreated());
+            responseDto.setCurrency(charge.getCurrency());
+            responseDto.setDescription(charge.getDescription());
+            return new ResponseEntity<>(responseDto, HttpStatus.FOUND);
+        } catch (StripeException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PutMapping(path = "/update/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public PaymentVisaDto update(@PathVariable String id, @RequestBody PaymentVisaDto paymentDto) throws StripeException {
-        service.update(id, paymentDto);
-        return null;
+    public ResponseEntity<ResponseDto> update(@PathVariable String id, @RequestBody PaymentVisaDto paymentDto) {
+        try {
+            Charge charge = service.update(id, paymentDto);
+            ResponseDto responseDto = new ResponseDto();
+            responseDto.setId(charge.getId());
+            responseDto.setBalanceTransaction(charge.getBalanceTransaction());
+            responseDto.setAmount(charge.getAmount());
+            responseDto.setCreated(charge.getCreated());
+            responseDto.setCurrency(charge.getCurrency());
+            responseDto.setDescription(charge.getDescription());
+            return new ResponseEntity<>(responseDto, HttpStatus.ACCEPTED);
+        } catch (StripeException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping(path = "/capture/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public PaymentVisaDto capture(@PathVariable String id) throws StripeException {
-        Charge charge =
-                Charge.retrieve(id);
-
-        Charge updatedCharge = charge.capture();
-        return null;
+    public ResponseEntity<ResponseDto> capture(@PathVariable String id) {
+        try {
+            Charge capturedCharge = service.capture(id);
+            ResponseDto responseDto = new ResponseDto();
+            responseDto.setId(capturedCharge.getId());
+            responseDto.setBalanceTransaction(capturedCharge.getBalanceTransaction());
+            responseDto.setAmount(capturedCharge.getAmount());
+            responseDto.setCreated(capturedCharge.getCreated());
+            responseDto.setCurrency(capturedCharge.getCurrency());
+            responseDto.setDescription(capturedCharge.getDescription());
+            return new ResponseEntity<>(responseDto, HttpStatus.ACCEPTED);
+        } catch (StripeException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping(path = "/getAll/{limit}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<PaymentVisaDto> capture(@PathVariable Integer limit) throws StripeException {
-        service.getAll(limit);
-        return null;
+    public ResponseEntity<String> getLimit(@PathVariable Integer limit) throws StripeException {
+        try {
+            ChargeCollection collection = service.getAll(limit);
+            return new ResponseEntity<>(collection.toJson(), HttpStatus.OK);
+        } catch (StripeException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

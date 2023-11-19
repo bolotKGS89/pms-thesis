@@ -9,15 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class BalanceService {
 
-    @Value("${stripe.api.key}")
-    String secretKey;
-
-    public void init() {
-        Stripe.apiKey = secretKey;
-    }
-
-    public Balance retrieveBalance() throws AuthenticationException,
-            InvalidRequestException,  CardException {
-        return null;
+    public Balance retrieveBalance() throws StripeException {
+        return Balance.retrieve();
     }
 }

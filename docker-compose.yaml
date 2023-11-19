@@ -5,7 +5,6 @@ services:
     container_name: techlab-amazon-develop
     links:
       - fluentd
-      - consul-server
     logging:
       driver: "fluentd"
       options:

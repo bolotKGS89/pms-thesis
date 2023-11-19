@@ -18,12 +18,6 @@ import java.util.Map;
 @Service
 public class ChargeService {
 
-    @Value("${stripe.api.key}")
-    String secretKey;
-
-    public void init() {
-        Stripe.apiKey = secretKey;
-    }
 
     public Charge charge(PaymentVisaDto paymentVisaDto)
             throws StripeException {
@@ -45,10 +39,16 @@ public class ChargeService {
         Charge charge = Charge.retrieve(id);
         Map<String, Object> chargeParams = new HashMap<>();
         chargeParams.put("amount", paymentVisaDto.getAmount());
-        chargeParams.put("currency", paymentVisaDto.getCurrency());
+//        chargeParams.put("currency", paymentVisaDto.getCurrency());
         chargeParams.put("description", paymentVisaDto.getDescription());
         chargeParams.put("source", paymentVisaDto.getStripeToken());
         return charge.update(chargeParams);
+    }
+
+    public Charge capture(String id) throws StripeException {
+        Charge charge =
+                Charge.retrieve(id);
+        return charge.capture();
     }
 
     public ChargeCollection getAll(Integer limit) throws StripeException

@@ -2,14 +2,19 @@ package it.ringmaster.api;
 
 import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
+import com.stripe.model.ChargeCollection;
 import com.stripe.model.Refund;
+import com.stripe.model.RefundCollection;
 import it.ringmaster.PaymentVisaDto;
 import it.ringmaster.RefundVisaDto;
+import it.ringmaster.ResponseDto;
 import it.ringmaster.service.RefundService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,11 +29,21 @@ public class RefundController {
     private RefundService service;
 
     @PostMapping(path = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public RefundVisaDto create(@RequestBody RefundVisaDto refundVisaDto) throws StripeException {
-        refundVisaDto.setDescription("Example charge");
-        refundVisaDto.setCurrency(RefundVisaDto.Currency.EUR);
-        Refund refund = service.create(refundVisaDto);
-        return null;
+    public ResponseEntity<ResponseDto> create(@RequestBody RefundVisaDto refundVisaDto) throws StripeException {
+        try {
+            Refund refund = service.create(refundVisaDto);
+            ResponseDto responseDto = new ResponseDto();
+            responseDto.setId(refund.getId());
+            responseDto.setBalanceTransaction(refund.getBalanceTransaction());
+            responseDto.setAmount(refund.getAmount());
+            responseDto.setCreated(refund.getCreated());
+            responseDto.setCurrency(refund.getCurrency());
+            responseDto.setDescription(refund.getDescription());
+            return new ResponseEntity<>(responseDto, HttpStatus.ACCEPTED);
+        } catch (StripeException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping(path = "/retrieve/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -44,8 +59,13 @@ public class RefundController {
     }
 
     @GetMapping(path = "/getAll/{limit}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<RefundVisaDto> capture(@PathVariable Integer limit) throws StripeException {
-        service.getAll(limit);
-        return null;
+    public ResponseEntity<String>  capture(@PathVariable Integer limit) throws StripeException {
+        try {
+            RefundCollection collection = service.getAll(limit);
+            return new ResponseEntity<>(collection.toJson(), HttpStatus.OK);
+        } catch (StripeException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
