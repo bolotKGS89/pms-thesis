@@ -17,6 +17,16 @@ public class SpringCloudConfig {
                         .uri("http://techlab-paypal-develop:8081")
                 )
                 .route(p ->
+                        p.path("/paypal/retrieve/{id}")
+                                .filters(f -> f.setPath("/paypal/retrieve/{id}"))
+                                .uri("http://techlab-paypal-develop:8081")
+                )
+                .route(p ->
+                        p.path("/paypal/execute/{id}")
+                                .filters(f -> f.setPath("/paypal/execute/{id}"))
+                                .uri("http://techlab-paypal-develop:8081")
+                )
+                .route(p ->
                         p.path("/visa/create")
                         .filters(f -> f.setPath("/v1/visa/charge/create"))
                         .uri("http://techlab-visa-develop:8082")

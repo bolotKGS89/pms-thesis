@@ -101,7 +101,16 @@
             <artifactId>spring-cloud-starter-consul-all</artifactId>
             <version>4.0.1</version>
         </dependency>
-
+        <dependency>
+            <groupId>javax.json</groupId>
+            <artifactId>javax.json-api</artifactId>
+            <version>1.1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.json</artifactId>
+            <version>1.1.4</version> <!-- Use the version compatible with your environment -->
+        </dependency>
 
     </dependencies>
 

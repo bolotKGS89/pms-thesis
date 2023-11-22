@@ -16,6 +16,8 @@ services:
     build: ./techlab-paypal-develop
     container_name: techlab-paypal-develop
     hostname: techlab-paypal-develop
+    ports:
+      - "8081:8081"
     links:
       - fluentd
     logging:
