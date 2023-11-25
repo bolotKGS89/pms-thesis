@@ -13,17 +13,22 @@ public class SpringCloudConfig {
         return builder.routes()
                 .route(p ->
                         p.path("/paypal/create")
-                        .filters(f -> f.setPath("/paypal/create"))
+                        .filters(f -> f.setPath("/v1/paypal/create"))
                         .uri("http://techlab-paypal-develop:8081")
                 )
                 .route(p ->
                         p.path("/paypal/retrieve/{id}")
-                                .filters(f -> f.setPath("/paypal/retrieve/{id}"))
+                                .filters(f -> f.setPath("/v1/paypal/retrieve/{id}"))
                                 .uri("http://techlab-paypal-develop:8081")
                 )
                 .route(p ->
-                        p.path("/paypal/execute/{id}")
-                                .filters(f -> f.setPath("/paypal/execute/{id}"))
+                        p.path("/paypal/capture/{id}")
+                                .filters(f -> f.setPath("/v1/paypal/capture/{id}"))
+                                .uri("http://techlab-paypal-develop:8081")
+                )
+                .route(p ->
+                        p.path("/paypal/refund/{id}")
+                                .filters(f -> f.setPath("/v1/paypal/refund/{id}"))
                                 .uri("http://techlab-paypal-develop:8081")
                 )
                 .route(p ->

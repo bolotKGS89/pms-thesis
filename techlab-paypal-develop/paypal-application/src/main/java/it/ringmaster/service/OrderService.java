@@ -30,16 +30,13 @@ public class OrderService {
     @Value("${paypal.secret}")
     private String secret;
 
-    private static final String PAYPAL_API_URL = "https://api-m.sandbox.paypal.com/v1/payments/payment";
+    private static final String PAYPAL_API_URL = "https://api-m.sandbox.paypal.com/v2/checkout/orders";
 
-    public String confirmOrder(String id) {
-        ResponseEntity<String> response = this.confirmById(id);
-//        return parseStatus(response.getBody());
-        return null;
-    }
+    private static final String PAYPAL_API_URL_PAYMENT = "https://api-m.sandbox.paypal.com/v2/payments/captures";
 
-    public ResponseEntity<String> executeOrder(String id, String json) {
-        return this.executeById(id, json);
+
+    public ResponseEntity<String> captureOrder(String id) {
+        return this.capture(id);
     }
 
     public ResponseEntity<String> retrieveOrder(String id) {
@@ -50,48 +47,18 @@ public class OrderService {
         return this.makePaymentPost(json);
     }
 
-
-    private ResponseEntity<String> confirmById(String id) {
-        HttpClient httpClient = HttpClient.newHttpClient();
-
-        // payload should be corrected
-        String payload = "{ \"payment_source\": { \"paypal\": { \"name\": { \"given_name\": \"John\"," +
-                " \"surname\": \"Doe\" }, \"email_address\": \"customer@example.com\", " +
-                "\"experience_context\": { \"payment_method_preference\": \"IMMEDIATE_PAYMENT_REQUIRED\", " +
-                "\"brand_name\": \"EXAMPLE INC\", \"locale\": \"en-US\", \"landing_page\": \"LOGIN\", " +
-                "\"shipping_preference\": \"SET_PROVIDED_ADDRESS\", \"user_action\": \"PAY_NOW\", " +
-                "\"return_url\": \"https://example.com/returnUrl\", \"cancel_url\": \"https://example.com/cancelUrl\" } } } }";
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(PAYPAL_API_URL + "/" + id + "/confirm-payment-source"))
-                .header("Content-Type", "application/json")
-                .header("Authorization", "Basic " + Base64.getEncoder().encodeToString((clientId + ":" + secret).getBytes()))
-                .POST(HttpRequest.BodyPublishers.ofString(payload))
-                .build();
-
-        try {
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
-            if (response.statusCode() == 201) {
-                // Parse the JSON response
-                return ResponseEntity.status(response.statusCode()).body(response.body());
-            } else {
-                // Handle error response
-                return ResponseEntity.status(response.statusCode()).body("Error getting creating order");
-            }
-        } catch (IOException | InterruptedException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error making PayPal API request");
-        }
+    public ResponseEntity<String> refundPayment(String id, String json) {
+        return this.refundPayment(id, json);
     }
 
-    private ResponseEntity<String> executeById(String id, String json) {
+    private ResponseEntity<String> capture(String id) {
         HttpClient httpClient = HttpClient.newHttpClient();
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(PAYPAL_API_URL + "/" + id + "/execute"))
+                .uri(URI.create(PAYPAL_API_URL + "/" + id + "/capture"))
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Basic " + Base64.getEncoder().encodeToString((clientId + ":" + secret).getBytes()))
-                .POST(HttpRequest.BodyPublishers.ofString(json))
+                .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
 
         try {
@@ -124,12 +91,31 @@ public class OrderService {
         }
     }
 
-
     private ResponseEntity<String> makePaymentPost(String jsonPayload)  {
         HttpClient httpClient = HttpClient.newHttpClient();
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(PAYPAL_API_URL))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Basic " + Base64.getEncoder().encodeToString((clientId + ":" + secret).getBytes()))
+                .POST(HttpRequest.BodyPublishers.ofString(jsonPayload))
+                .build();
+
+        try {
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+            return ResponseEntity.status(response.statusCode()).body(response.body());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error making PayPal API request");
+        }
+    }
+
+    private ResponseEntity<String> makeRefund(String id, String jsonPayload)  {
+        HttpClient httpClient = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(PAYPAL_API_URL_PAYMENT + "/" + id + "/refund"))
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Basic " + Base64.getEncoder().encodeToString((clientId + ":" + secret).getBytes()))
                 .POST(HttpRequest.BodyPublishers.ofString(jsonPayload))

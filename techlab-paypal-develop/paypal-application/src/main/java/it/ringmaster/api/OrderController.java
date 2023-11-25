@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/paypal")
+@RequestMapping("/v1/paypal")
 @AllArgsConstructor
 public class OrderController {
     @Autowired
@@ -23,7 +23,7 @@ public class OrderController {
     @Autowired
     private JsonService jsonService;
 
-    // create payment
+    // create order
     @PostMapping(path = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> create(@RequestBody PaymentDto paymentDto)  {
         String json = jsonService.export(paymentDto.getIntent(), paymentDto.getTotal(), paymentDto.getCurrency());
@@ -31,26 +31,28 @@ public class OrderController {
                 orderService.createOrder(json).getStatusCode());
     }
 
-    // retrieve payment details
+    // retrieve order details
     @GetMapping(path = "/retrieve/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> retrieve(@PathVariable String id) {
         return new ResponseEntity<>(orderService.retrieveOrder(id).getBody(),
                 orderService.retrieveOrder(id).getStatusCode());
     }
 
-    // execute by id
-    @PostMapping(path = "/execute/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> execute(@PathVariable String id) {
-        String json = jsonService.getPaymentId("C4PU98DLD4KTY");
-        return new ResponseEntity<String>(
-                orderService.executeOrder(id, json).getBody(),
-                orderService.executeOrder(id, json).getStatusCode());
+    // capture by id
+    @PostMapping(path = "/capture/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> capture(@PathVariable String id) {
+        return new ResponseEntity<>(
+                orderService.captureOrder(id).getBody(),
+                orderService.captureOrder(id).getStatusCode());
     }
 
-    @PostMapping(path = "/confirm/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public PaymentDto confirm(@PathVariable String id) {
-        String response = orderService.confirmOrder(id);
-        System.out.println(response);
-        return null;
+    // refund by id
+    @PostMapping(path = "/refund/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> refund(@PathVariable String id, @RequestBody PaymentDto paymentDto) {
+        String json = jsonService.createRefund(paymentDto.getTotal(), paymentDto.getCurrency(), paymentDto.getNote());
+        return new ResponseEntity<>(
+                orderService.refundPayment(id, json).getBody(),
+                orderService.refundPayment(id, json).getStatusCode());
     }
+
 }
