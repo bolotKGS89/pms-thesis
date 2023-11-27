@@ -2,11 +2,11 @@ package it.ringmaster.api;
 
 
 import com.stripe.exception.*;
-import com.stripe.model.Charge;
-import com.stripe.model.ChargeCollection;
+import com.stripe.model.PaymentIntent;
+import com.stripe.model.PaymentIntentCollection;
 import it.ringmaster.PaymentVisaDto;
 import it.ringmaster.ResponseDto;
-import it.ringmaster.service.ChargeService;
+import it.ringmaster.service.PaymentIntentService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,24 +19,23 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@RequestMapping("/v1/visa/charge")
+@RequestMapping("/v1/visa")
 @AllArgsConstructor
-public class ChargeController {
+public class PaymentController {
 
     @Autowired
-    private ChargeService service;
+    private PaymentIntentService service;
 
     @PostMapping(path = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseDto> create(@RequestBody PaymentVisaDto paymentDto) {
         try {
-            Charge charge = service.charge(paymentDto);
+            PaymentIntent paymentIntent = service.create(paymentDto);
             ResponseDto responseDto = new ResponseDto();
-            responseDto.setId(charge.getId());
-            responseDto.setBalanceTransaction(charge.getBalanceTransaction());
-            responseDto.setAmount(charge.getAmount());
-            responseDto.setCreated(charge.getCreated());
-            responseDto.setCurrency(charge.getCurrency());
-            responseDto.setDescription(charge.getDescription());
+            responseDto.setId(paymentIntent.getId());
+            responseDto.setAmount(paymentIntent.getAmount());
+            responseDto.setCreated(paymentIntent.getCreated());
+            responseDto.setCurrency(paymentIntent.getCurrency());
+            responseDto.setDescription(paymentIntent.getDescription());
             return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
         } catch (StripeException e) {
             e.printStackTrace();
@@ -47,14 +46,14 @@ public class ChargeController {
     @GetMapping(path = "/retrieve/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseDto> retrieve(@PathVariable String id) {
         try {
-            Charge charge = service.retrieve(id);
+            PaymentIntent paymentIntent = service.retrieve(id);
             ResponseDto responseDto = new ResponseDto();
-            responseDto.setId(charge.getId());
-            responseDto.setBalanceTransaction(charge.getBalanceTransaction());
-            responseDto.setAmount(charge.getAmount());
-            responseDto.setCreated(charge.getCreated());
-            responseDto.setCurrency(charge.getCurrency());
-            responseDto.setDescription(charge.getDescription());
+            responseDto.setId(paymentIntent.getId());
+//            responseDto.setBalanceTransaction(paymentIntent.getBalanceTransaction());
+            responseDto.setAmount(paymentIntent.getAmount());
+            responseDto.setCreated(paymentIntent.getCreated());
+            responseDto.setCurrency(paymentIntent.getCurrency());
+            responseDto.setDescription(paymentIntent.getDescription());
             return new ResponseEntity<>(responseDto, HttpStatus.FOUND);
         } catch (StripeException e) {
             e.printStackTrace();
@@ -65,14 +64,14 @@ public class ChargeController {
     @PutMapping(path = "/update/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseDto> update(@PathVariable String id, @RequestBody PaymentVisaDto paymentDto) {
         try {
-            Charge charge = service.update(id, paymentDto);
+            PaymentIntent paymentIntent = service.update(id, paymentDto);
             ResponseDto responseDto = new ResponseDto();
-            responseDto.setId(charge.getId());
-            responseDto.setBalanceTransaction(charge.getBalanceTransaction());
-            responseDto.setAmount(charge.getAmount());
-            responseDto.setCreated(charge.getCreated());
-            responseDto.setCurrency(charge.getCurrency());
-            responseDto.setDescription(charge.getDescription());
+            responseDto.setId(paymentIntent.getId());
+//            responseDto.setBalanceTransaction(paymentIntent.getBalanceTransaction());
+            responseDto.setAmount(paymentIntent.getAmount());
+            responseDto.setCreated(paymentIntent.getCreated());
+            responseDto.setCurrency(paymentIntent.getCurrency());
+            responseDto.setDescription(paymentIntent.getDescription());
             return new ResponseEntity<>(responseDto, HttpStatus.ACCEPTED);
         } catch (StripeException e) {
             e.printStackTrace();
@@ -83,14 +82,14 @@ public class ChargeController {
     @GetMapping(path = "/capture/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseDto> capture(@PathVariable String id) {
         try {
-            Charge capturedCharge = service.capture(id);
+            PaymentIntent paymentIntent = service.capture(id);
             ResponseDto responseDto = new ResponseDto();
-            responseDto.setId(capturedCharge.getId());
-            responseDto.setBalanceTransaction(capturedCharge.getBalanceTransaction());
-            responseDto.setAmount(capturedCharge.getAmount());
-            responseDto.setCreated(capturedCharge.getCreated());
-            responseDto.setCurrency(capturedCharge.getCurrency());
-            responseDto.setDescription(capturedCharge.getDescription());
+            responseDto.setId(paymentIntent.getId());
+//            responseDto.setBalanceTransaction(paymentIntent.getBalanceTransaction());
+            responseDto.setAmount(paymentIntent.getAmount());
+            responseDto.setCreated(paymentIntent.getCreated());
+            responseDto.setCurrency(paymentIntent.getCurrency());
+            responseDto.setDescription(paymentIntent.getDescription());
             return new ResponseEntity<>(responseDto, HttpStatus.ACCEPTED);
         } catch (StripeException e) {
             e.printStackTrace();
@@ -99,9 +98,9 @@ public class ChargeController {
     }
 
     @GetMapping(path = "/getAll/{limit}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getLimit(@PathVariable Integer limit) throws StripeException {
+    public ResponseEntity<String> getLimit(@PathVariable Integer limit)  {
         try {
-            ChargeCollection collection = service.getAll(limit);
+            PaymentIntentCollection collection = service.getAll(limit);
             return new ResponseEntity<>(collection.toJson(), HttpStatus.OK);
         } catch (StripeException e) {
             e.printStackTrace();
