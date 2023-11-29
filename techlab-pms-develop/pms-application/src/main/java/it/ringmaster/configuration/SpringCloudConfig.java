@@ -33,32 +33,37 @@ public class SpringCloudConfig {
                 )
                 .route(p ->
                         p.path("/visa/create")
-                        .filters(f -> f.setPath("/v1/visa/charge/create"))
+                        .filters(f -> f.setPath("/v1/visa/create"))
                         .uri("http://techlab-visa-develop:8082")
                 )
                 .route(p ->
                         p.path("/visa/retrieve/{id}")
-                                .filters(f -> f.setPath("/v1/visa/charge/retrieve/{id}"))
+                                .filters(f -> f.setPath("/v1/visa/retrieve/{id}"))
                                 .uri("http://techlab-visa-develop:8082")
                 )
                 .route(p ->
                         p.path("/visa/update/{id}")
-                                .filters(f -> f.setPath("/v1/visa/charge/update/{id}"))
+                                .filters(f -> f.setPath("/v1/visa/update/{id}"))
+                                .uri("http://techlab-visa-develop:8082")
+                )
+                .route(p ->
+                        p.path("/visa/confirm/{id}")
+                                .filters(f -> f.setPath("/v1/visa/confirm/{id}"))
                                 .uri("http://techlab-visa-develop:8082")
                 )
                 .route(p ->
                         p.path("/visa/capture/{id}")
-                                .filters(f -> f.setPath("/v1/visa/charge/capture/{id}"))
+                                .filters(f -> f.setPath("/v1/visa/capture/{id}"))
                                 .uri("http://techlab-visa-develop:8082")
                 )
                 .route(p ->
                         p.path("/visa/charge/getAll/{limit}")
-                                .filters(f -> f.setPath("/v1/visa/charge/getAll/{limit}"))
+                                .filters(f -> f.setPath("/v1/visa/getAll/{limit}"))
                                 .uri("http://techlab-visa-develop:8082")
                 )
                 .route(p ->
                         p.path("/visa/balance")
-                                .filters(f -> f.setPath("/v1/visa/balance/retrieve"))
+                                .filters(f -> f.setPath("/v1/visa/balance"))
                                 .uri("http://techlab-visa-develop:8082")
                 )
                 .route(p ->

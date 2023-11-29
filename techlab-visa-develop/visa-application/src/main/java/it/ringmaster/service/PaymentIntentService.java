@@ -16,13 +16,19 @@ public class PaymentIntentService {
 
     public PaymentIntent create(PaymentVisaDto paymentVisaDto)
             throws StripeException {
-        Map<String, Object> chargeParams = new HashMap<>();
-        chargeParams.put("amount", paymentVisaDto.getAmount());
-        chargeParams.put("currency", paymentVisaDto.getCurrency());
-        chargeParams.put("description", paymentVisaDto.getDescription());
-        chargeParams.put("source", paymentVisaDto.getStripeToken());
+        Map<String, Object> automaticPaymentMethods =
+                new HashMap<>();
+        automaticPaymentMethods.put("enabled", true);
+        automaticPaymentMethods.put("allow_redirects", "never");
+        Map<String, Object> params = new HashMap<>();
+        params.put("amount", paymentVisaDto.getAmount());
+        params.put("currency", paymentVisaDto.getCurrency());
+        params.put(
+                "automatic_payment_methods",
+                automaticPaymentMethods
+        );
 
-        return PaymentIntent.create(chargeParams);
+        return PaymentIntent.create(params);
     }
 
     public PaymentIntent retrieve(String id) throws StripeException
@@ -30,12 +36,23 @@ public class PaymentIntentService {
         return PaymentIntent.retrieve(id);
     }
 
+    public PaymentIntent confirm(String id) throws StripeException
+    {
+        PaymentIntent paymentIntent =
+                PaymentIntent.retrieve(
+                        id
+                );
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("payment_method", "pm_card_visa");
+
+        return  paymentIntent.confirm(params);
+    }
+
     public PaymentIntent update(String id, PaymentVisaDto paymentVisaDto) throws StripeException {
         PaymentIntent paymentIntent = PaymentIntent.retrieve(id);
         Map<String, Object> chargeParams = new HashMap<>();
         chargeParams.put("amount", paymentVisaDto.getAmount());
-        chargeParams.put("description", paymentVisaDto.getDescription());
-        chargeParams.put("source", paymentVisaDto.getStripeToken());
         return paymentIntent.update(chargeParams);
     }
 

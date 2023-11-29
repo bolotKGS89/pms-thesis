@@ -15,8 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @Slf4j
 @RequestMapping("/v1/visa")
@@ -49,7 +47,23 @@ public class PaymentController {
             PaymentIntent paymentIntent = service.retrieve(id);
             ResponseDto responseDto = new ResponseDto();
             responseDto.setId(paymentIntent.getId());
-//            responseDto.setBalanceTransaction(paymentIntent.getBalanceTransaction());
+            responseDto.setAmount(paymentIntent.getAmount());
+            responseDto.setCreated(paymentIntent.getCreated());
+            responseDto.setCurrency(paymentIntent.getCurrency());
+            responseDto.setDescription(paymentIntent.getDescription());
+            return new ResponseEntity<>(responseDto, HttpStatus.FOUND);
+        } catch (StripeException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(path = "/confirm/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseDto> confirm(@PathVariable String id) {
+        try {
+            PaymentIntent paymentIntent = service.confirm(id);
+            ResponseDto responseDto = new ResponseDto();
+            responseDto.setId(paymentIntent.getId());
             responseDto.setAmount(paymentIntent.getAmount());
             responseDto.setCreated(paymentIntent.getCreated());
             responseDto.setCurrency(paymentIntent.getCurrency());
@@ -67,7 +81,6 @@ public class PaymentController {
             PaymentIntent paymentIntent = service.update(id, paymentDto);
             ResponseDto responseDto = new ResponseDto();
             responseDto.setId(paymentIntent.getId());
-//            responseDto.setBalanceTransaction(paymentIntent.getBalanceTransaction());
             responseDto.setAmount(paymentIntent.getAmount());
             responseDto.setCreated(paymentIntent.getCreated());
             responseDto.setCurrency(paymentIntent.getCurrency());
@@ -85,7 +98,6 @@ public class PaymentController {
             PaymentIntent paymentIntent = service.capture(id);
             ResponseDto responseDto = new ResponseDto();
             responseDto.setId(paymentIntent.getId());
-//            responseDto.setBalanceTransaction(paymentIntent.getBalanceTransaction());
             responseDto.setAmount(paymentIntent.getAmount());
             responseDto.setCreated(paymentIntent.getCreated());
             responseDto.setCurrency(paymentIntent.getCurrency());
