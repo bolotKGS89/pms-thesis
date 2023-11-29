@@ -1,13 +1,10 @@
 package it.ringmaster.api;
 
 import com.stripe.exception.StripeException;
-import com.stripe.model.Charge;
-import com.stripe.model.ChargeCollection;
 import com.stripe.model.Refund;
 import com.stripe.model.RefundCollection;
-import it.ringmaster.PaymentVisaDto;
-import it.ringmaster.RefundVisaDto;
-import it.ringmaster.ResponseDto;
+import it.ringmaster.dtos.RefundVisaDto;
+import it.ringmaster.dtos.ResponseDto;
 import it.ringmaster.service.RefundService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @Slf4j

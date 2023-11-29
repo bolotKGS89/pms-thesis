@@ -2,7 +2,7 @@ package it.ringmaster.service;
 
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntentCollection;
-import it.ringmaster.PaymentVisaDto;
+import it.ringmaster.dtos.PaymentVisaDto;
 import org.springframework.stereotype.Service;
 import com.stripe.model.PaymentIntent;
 

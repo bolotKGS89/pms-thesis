@@ -1,4 +1,4 @@
-package it.ringmaster;
+package it.ringmaster.dtos;
 
 import lombok.Data;
 import lombok.Getter;

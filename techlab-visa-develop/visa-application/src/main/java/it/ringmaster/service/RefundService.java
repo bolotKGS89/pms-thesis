@@ -1,12 +1,9 @@
 package it.ringmaster.service;
 
-import com.stripe.Stripe;
 import com.stripe.exception.*;
 import com.stripe.model.Refund;
 import com.stripe.model.RefundCollection;
-import it.ringmaster.PaymentVisaDto;
-import it.ringmaster.RefundVisaDto;
-import org.springframework.beans.factory.annotation.Value;
+import it.ringmaster.dtos.RefundVisaDto;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;

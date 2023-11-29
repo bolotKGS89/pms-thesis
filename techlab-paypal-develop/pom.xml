@@ -10,9 +10,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>paypal-application</module>
-        <module>paypal-dtos</module>
-        <module>paypal-core</module>
-        <module>paypal-liquibase</module>
     </modules>
 
     <properties>

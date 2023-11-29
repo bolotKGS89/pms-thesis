@@ -10,9 +10,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>visa-application</module>
-        <module>visa-core</module>
-        <module>visa-dtos</module>
-        <module>visa-liquibase</module>
     </modules>
 
     <properties>

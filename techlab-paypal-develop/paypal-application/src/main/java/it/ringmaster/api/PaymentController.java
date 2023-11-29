@@ -1,6 +1,6 @@
 package it.ringmaster.api;
 
-import it.ringmaster.PaymentDto;
+import it.ringmaster.dtos.PaymentDto;
 import it.ringmaster.service.PaymentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

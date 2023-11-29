@@ -1,7 +1,7 @@
 package it.ringmaster.api;
 
 
-import it.ringmaster.WebhookDto;
+import it.ringmaster.dtos.WebhookDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;

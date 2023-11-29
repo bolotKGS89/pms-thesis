@@ -7,19 +7,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="visa-liquibase" />
         <module name="amazon-dtos" />
-        <module name="paypal-dtos" />
-        <module name="visa-dtos" />
         <module name="amazon-application" />
         <module name="pms-core" />
         <module name="amazon-liquibase" />
-        <module name="visa-core" />
         <module name="pms-liquibase" />
         <module name="amazon-core" />
-        <module name="paypal-core" />
         <module name="paypal-application" />
-        <module name="paypal-liquibase" />
         <module name="pms-dtos" />
         <module name="visa-application" />
         <module name="pms-application" />
@@ -28,9 +22,15 @@
     <bytecodeTargetLevel>
       <module name="demo" target="17" />
       <module name="ewl-server" target="11" />
+      <module name="paypal-core" target="11" />
+      <module name="paypal-dtos" target="11" />
+      <module name="paypal-liquibase" target="11" />
       <module name="pms-liquibase (1)" target="11" />
       <module name="pms-liquibase (2)" target="11" />
       <module name="techlab-eureka-develop" target="19" />
+      <module name="visa-core" target="11" />
+      <module name="visa-dtos" target="11" />
+      <module name="visa-liquibase" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
