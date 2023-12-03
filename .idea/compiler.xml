@@ -7,24 +7,24 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="amazon-dtos" />
         <module name="amazon-application" />
-        <module name="pms-core" />
-        <module name="amazon-liquibase" />
-        <module name="pms-liquibase" />
-        <module name="amazon-core" />
         <module name="paypal-application" />
-        <module name="pms-dtos" />
         <module name="visa-application" />
         <module name="pms-application" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="amazon-core" target="11" />
+      <module name="amazon-dtos" target="11" />
+      <module name="amazon-liquibase" target="11" />
       <module name="demo" target="17" />
       <module name="ewl-server" target="11" />
       <module name="paypal-core" target="11" />
       <module name="paypal-dtos" target="11" />
       <module name="paypal-liquibase" target="11" />
+      <module name="pms-core" target="11" />
+      <module name="pms-dtos" target="11" />
+      <module name="pms-liquibase" target="11" />
       <module name="pms-liquibase (1)" target="11" />
       <module name="pms-liquibase (2)" target="11" />
       <module name="techlab-eureka-develop" target="19" />

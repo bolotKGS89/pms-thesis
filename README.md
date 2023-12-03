@@ -19,3 +19,19 @@ Each payment gateway has a set of endpoints which provide a certain functionalit
  - **POST /visa/capture/{id}** - Capture the funds of an existing uncaptured PaymentIntent when its status is requires_capture
  - **POST /visa/refund/{id}** - Refund a previously created PaymentIntent that’s not refunded yet. Funds are refunded to the credit or debit card that’s originally charged.
  - **GET /visa/transactions** - Returns a list of PaymentIntents.
+
+## Amazon Pay
+#### Checkout session
+- **POST /amazon/create-checkout-session** - Create checkout session
+- **GET /amazon/get-checkout-session/{sessionId}** - Get checkout session by sessionId
+- **PUT /amazon/update-checkout-session/{sessionId}** - Update checkout session by sessionId
+- **POST /amazon/complete-checkout-session/{sessionId}** - Complete checkout session by sessionId
+
+#### Charge permission
+- **GET /amazon/get-charge-permission/{id}** - Get charge permission by Id
+- **PATCH /amazon/update-checkout-session/{id}** - Update charge permission by Id
+- **DELETE /amazon/close-checkout-session/{id}** - Close checkout session by Id
+
+#### Charge
+
+#### Refund

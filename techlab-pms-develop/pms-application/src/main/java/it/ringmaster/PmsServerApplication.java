@@ -9,11 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PmsServerApplication {
 
-    @RequestMapping("/")
-    public String home() {
-        return "Api gateway";
-    }
-
 
     public static void main(String[] args) {
 

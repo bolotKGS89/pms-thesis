@@ -9,9 +9,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>pms-application</module>
-        <module>pms-dtos</module>
-        <module>pms-liquibase</module>
-        <module>pms-core</module>
     </modules>
 
     <version>1.0-SNAPSHOT</version>

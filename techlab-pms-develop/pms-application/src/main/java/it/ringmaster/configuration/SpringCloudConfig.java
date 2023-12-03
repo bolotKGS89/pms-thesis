@@ -12,6 +12,26 @@ public class SpringCloudConfig {
     public RouteLocator routes(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route(p ->
+                        p.path("/amazon/create-checkout-session")
+                                .filters(f -> f.setPath("/v1/amazon/create-checkout-session"))
+                                .uri("http://techlab-amazon-develop:8083")
+                )
+                .route(p ->
+                        p.path("/amazon/get-checkout-session/{id}")
+                                .filters(f -> f.setPath("/v1/amazon/get-checkout-session/{id}"))
+                                .uri("http://techlab-amazon-develop:8083")
+                )
+                .route(p ->
+                        p.path("/amazon/complete-checkout-session/{id}")
+                                .filters(f -> f.setPath("/v1/amazon/complete-checkout-session/{id}"))
+                                .uri("http://techlab-amazon-develop:8083")
+                )
+                .route(p ->
+                        p.path("/amazon/update-checkout-session/{id}")
+                                .filters(f -> f.setPath("/v1/amazon/update-checkout-session/{id}"))
+                                .uri("http://techlab-amazon-develop:8083")
+                )
+                .route(p ->
                         p.path("/paypal/create")
                         .filters(f -> f.setPath("/v1/paypal/create"))
                         .uri("http://techlab-paypal-develop:8081")
