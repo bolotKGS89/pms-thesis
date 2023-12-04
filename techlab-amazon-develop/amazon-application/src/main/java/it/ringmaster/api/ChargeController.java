@@ -45,7 +45,7 @@ public class ChargeController {
         return new ResponseEntity<>(response.getRawResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @PostMapping(path = "/create-charge/{captureId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/capture-charge/{captureId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> captureCharge(@PathVariable String captureId, @RequestBody PaymentDto paymentDto) throws AmazonPayClientException {
         JSONObject jsonObject = jsonService.createCharge(paymentDto, null, false);
         AmazonPayResponse response = amazonPayService.captureCharge(captureId, jsonObject, amazonPayService.generateIdempotencyKey());

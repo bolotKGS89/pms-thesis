@@ -33,5 +33,11 @@ Each payment gateway has a set of endpoints which provide a certain functionalit
 - **DELETE /amazon/close-checkout-session/{id}** - Close checkout session by Id
 
 #### Charge
+- **GET /amazon/get-charge/{id}** - Get charge by Id
+- **POST /amazon/create-charge/{permissionId}** - Create charge by permissionId
+- **POST /amazon/capture-charge/{captureId}** - Capture charge by captureId
+- **DELETE /amazon/delete-charge/{captureId}** - Delete charge by captureId
 
 #### Refund
+- **POST /amazon/create-refund/{chargeId}** - Create refund by chargeId
+- **GET /amazon/get-refund/{refundId}** - Get refund by refundId
