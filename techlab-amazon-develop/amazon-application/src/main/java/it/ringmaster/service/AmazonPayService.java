@@ -42,4 +42,40 @@ public class AmazonPayService {
     public AmazonPayResponse completeCheckoutSession(String sessionId, JSONObject payload) throws AmazonPayClientException {
         return this.webstoreClient.completeCheckoutSession(sessionId, payload);
     }
+
+    public AmazonPayResponse getChargePermission(String sessionId) throws AmazonPayClientException {
+        return this.webstoreClient.getChargePermission(sessionId);
+    }
+
+    public AmazonPayResponse updateChargePermission(String sessionId, JSONObject payload) throws AmazonPayClientException {
+        return this.webstoreClient.updateChargePermission(sessionId, payload);
+    }
+
+    public AmazonPayResponse closeChargePermission(String sessionId, JSONObject payload) throws AmazonPayClientException {
+        return this.webstoreClient.closeChargePermission(sessionId, payload);
+    }
+
+    public AmazonPayResponse getCharge(String chargeId) throws AmazonPayClientException {
+        return this.webstoreClient.getCharge(chargeId);
+    }
+
+    public AmazonPayResponse createCharge(JSONObject payload, Map<String, String> header) throws AmazonPayClientException {
+        return this.webstoreClient.createCharge(payload, header);
+    }
+
+    public AmazonPayResponse captureCharge(String chargeId, JSONObject payload, Map<String, String> header) throws AmazonPayClientException {
+        return this.webstoreClient.captureCharge(chargeId, payload, header);
+    }
+
+    public AmazonPayResponse cancelCharge(String chargeId, JSONObject payload) throws AmazonPayClientException {
+        return this.webstoreClient.cancelCharge(chargeId, payload);
+    }
+
+    public AmazonPayResponse createRefund(JSONObject payload, Map<String, String> header) throws AmazonPayClientException {
+        return this.webstoreClient.createRefund(payload, header);
+    }
+
+    public AmazonPayResponse getRefund(String refundId)  throws AmazonPayClientException {
+        return this.webstoreClient.getRefund(refundId);
+    }
 }

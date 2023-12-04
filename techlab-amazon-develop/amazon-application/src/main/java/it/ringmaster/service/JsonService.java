@@ -1,10 +1,13 @@
 package it.ringmaster.service;
 
+import it.ringmaster.dtos.MerchantMetadataDto;
+import it.ringmaster.dtos.PaymentDto;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.util.Currency;
+import java.util.Optional;
 
 @Service
 public class JsonService {
@@ -18,18 +21,24 @@ public class JsonService {
         webCheckoutDetails.put("checkoutResultReturnUrl", CHECKOUT_URL);
 
         JSONObject paymentDetails = new JSONObject();
-        paymentDetails.put("paymentIntent", "Authorize");
+        paymentDetails.put("paymentIntent", "Confirm");
+//        paymentDetails.put("chargeAmount", new JSONObject()
+//                .put("amount", "1")
+//                .put("currency", "USD"));
 
         JSONObject recurringMetadata = new JSONObject();
-        recurringMetadata.put("frequency", new JSONObject()
-                .put("unit", "Variable")
-                .put("value", "0"));
+
 
         payload.put("webCheckoutDetails", webCheckoutDetails);
         payload.put("storeId", STORE_ID);
         payload.put("paymentDetails", paymentDetails);
-        payload.put("chargePermissionType", "Recurring");
-        payload.put("recurringMetadata", recurringMetadata);
+        payload.put("chargePermissionType", "OneTime");
+
+//        payload.put("recurringMetadata", recurringMetadata);
+//        recurringMetadata.put("frequency", new JSONObject()
+//                .put("unit", "Variable")
+//                .put("value", "0"));
+
         payload.put("scopes", new JSONArray()
                                 .put("name")
                 .put("email")
@@ -68,5 +77,46 @@ public class JsonService {
         return payload;
     }
 
+    public JSONObject updateChargePermission(MerchantMetadataDto merchantMetadataDto) {
+        JSONObject payload = new JSONObject();
+        JSONObject merchantMetadata = new JSONObject();
+        merchantMetadata.put("merchantReferenceId", merchantMetadataDto.getMerchantReferenceId());
+        merchantMetadata.put("merchantStoreName", merchantMetadataDto.getMerchantStoreName());
+        merchantMetadata.put("noteToBuyer", merchantMetadataDto.getNoteToBuyer());
+        merchantMetadata.put("customInformation", merchantMetadataDto.getCustomInformation());
+        payload.put("merchantMetadata", merchantMetadata);
+
+        return payload;
+    }
+
+    public JSONObject createCharge(PaymentDto paymentDto, String permissionId, Boolean captureNow) {
+        JSONObject payload = new JSONObject();
+        JSONObject chargeAmount = new JSONObject();
+        chargeAmount.put("amount", paymentDto.getAmount());
+        chargeAmount.put("currencyCode", paymentDto.getCurrency());
+
+        if(!Optional.of(permissionId).isEmpty())
+            payload.put("chargePermissionId", permissionId);
+
+        payload.put("chargeAmount", chargeAmount);
+        payload.put("captureNow", captureNow);
+        // if payload.put("captureNow", true);
+        // then provide
+        // payload.put("softDescriptor", "My Soft Descriptor");
+        payload.put("canHandlePendingAuthorization", true);
+        return payload;
+    }
+
+    public JSONObject createRefund(PaymentDto paymentDto, String chargeId) {
+        JSONObject payload = new JSONObject();
+        JSONObject refundAmount = new JSONObject();
+        refundAmount.put("amount", paymentDto.getAmount());
+        refundAmount.put("currencyCode", paymentDto.getCurrency());
+        payload.put("chargeId", chargeId);
+        payload.put("refundAmount", refundAmount);
+        payload.put("softDescriptor", "AMZ*soft");
+
+        return payload;
+    }
 
 }

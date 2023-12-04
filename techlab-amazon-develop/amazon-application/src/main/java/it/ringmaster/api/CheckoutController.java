@@ -28,7 +28,6 @@ public class CheckoutController {
 
     @GetMapping(path = "/create-checkout-session", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createCheckoutSession() throws AmazonPayClientException {
-        System.out.println(jsonService.getPayLoadForCreateCheckout().toString());
         AmazonPayResponse response = amazonPayService.openCheckoutSession(jsonService.getPayLoadForCreateCheckout(),
                 amazonPayService.generateIdempotencyKey());
         if(response.isSuccess()) {
@@ -41,7 +40,7 @@ public class CheckoutController {
     public ResponseEntity<String> getCheckoutSession(@PathVariable String sessionId) throws AmazonPayClientException {
         AmazonPayResponse response = amazonPayService.getCheckoutSession(sessionId);
         if(response.isSuccess()) {
-            return new ResponseEntity<>(response.getRawResponse(), HttpStatus.CREATED);
+            return new ResponseEntity<>(response.getRawResponse(), HttpStatus.FOUND);
         }
         return new ResponseEntity<>(response.getRawResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -49,10 +48,9 @@ public class CheckoutController {
     @PutMapping(path = "/update-checkout-session/{sessionId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updateCheckoutSession(@PathVariable String sessionId, @RequestBody PaymentDto paymentDto) throws AmazonPayClientException {
         JSONObject jsonObject = jsonService.updatePayload(paymentDto.getAmount(), String.valueOf(paymentDto.getCurrency()));
-        System.out.println(jsonObject.toString());
         AmazonPayResponse response = amazonPayService.updateCheckoutSession(sessionId, jsonObject);
         if(response.isSuccess()) {
-            return new ResponseEntity<>(response.getRawResponse(), HttpStatus.CREATED);
+            return new ResponseEntity<>(response.getRawResponse(), HttpStatus.ACCEPTED);
         }
         return new ResponseEntity<>(response.getRawResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -60,10 +58,9 @@ public class CheckoutController {
     @PostMapping(path = "/complete-checkout-session/{sessionId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> completeCheckoutSession(@PathVariable String sessionId, @RequestBody PaymentDto paymentDto) throws AmazonPayClientException {
         JSONObject jsonObject = jsonService.getPayLoadForCompleteCheckout(paymentDto.getAmount(), String.valueOf(paymentDto.getCurrency()));
-        System.out.println(jsonObject.toString());
         AmazonPayResponse response = amazonPayService.completeCheckoutSession(sessionId, jsonObject);
         if(response.isSuccess()) {
-            return new ResponseEntity<>(response.getRawResponse(), HttpStatus.CREATED);
+            return new ResponseEntity<>(response.getRawResponse(), HttpStatus.OK);
         }
         return new ResponseEntity<>(response.getRawResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
