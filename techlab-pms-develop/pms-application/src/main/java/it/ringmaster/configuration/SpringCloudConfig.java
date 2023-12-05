@@ -77,23 +77,13 @@ public class SpringCloudConfig {
                                 .uri("http://techlab-visa-develop:8082")
                 )
                 .route(p ->
-                        p.path("/visa/charge/getAll/{limit}")
+                        p.path("/visa/getAll/{limit}")
                                 .filters(f -> f.setPath("/v1/visa/getAll/{limit}"))
-                                .uri("http://techlab-visa-develop:8082")
-                )
-                .route(p ->
-                        p.path("/visa/balance")
-                                .filters(f -> f.setPath("/v1/visa/balance"))
                                 .uri("http://techlab-visa-develop:8082")
                 )
                 .route(p ->
                         p.path("/visa/refund")
                                 .filters(f -> f.setPath("/v1/visa/refund/create"))
-                                .uri("http://techlab-visa-develop:8082")
-                )
-                .route(p ->
-                        p.path("/visa/refund/getAll/{limit}")
-                                .filters(f -> f.setPath("/v1/visa/refund/getAll/{limit}"))
                                 .uri("http://techlab-visa-develop:8082")
                 )
                 .build();

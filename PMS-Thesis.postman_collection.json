@@ -1,0 +1,251 @@
+{
+	"info": {
+		"_postman_id": "cdcc7eb7-6fd0-4fbc-8030-4b13f3f4dc6d",
+		"name": "PMS-Thesis",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27393383"
+	},
+	"item": [
+		{
+			"name": "PayPal",
+			"item": [
+				{
+					"name": "POST Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"intent\": \"CAPTURE\",\n    \"total\": \"1.00\",\n    \"currency\": \"USD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/paypal/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"paypal",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Retrieve",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/paypal/retrieve/9B81305853926383E",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"paypal",
+								"retrieve",
+								"9B81305853926383E"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST capture",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/paypal/capture/9B81305853926383E",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"paypal",
+								"capture",
+								"9B81305853926383E"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST refund",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"total\": \"0.50\",\n    \"currency\": \"USD\",\n    \"note\": \"test\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/paypal/refund/9B81305853926383E",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"paypal",
+								"refund",
+								"9B81305853926383E"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Stripe/Visa",
+			"item": [
+				{
+					"name": "POST Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": \"100\",\n    \"currency\": \"USD\",\n    \"description\": \"test\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/visa/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"visa",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Retrieve",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/visa/retrieve/pi_3OK6dPAy9GZXmIvf04HOtxOT",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"visa",
+								"retrieve",
+								"pi_3OK6dPAy9GZXmIvf04HOtxOT"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Confirm",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/visa/confirm/pi_3OK6jfAy9GZXmIvf3XxApqQP",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"visa",
+								"confirm",
+								"pi_3OK6jfAy9GZXmIvf3XxApqQP"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET capture",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/visa/capture/pi_3OK6dPAy9GZXmIvf04HOtxOT",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"visa",
+								"capture",
+								"pi_3OK6dPAy9GZXmIvf04HOtxOT"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": \"200\",\n    \"currency\": \"USD\",\n    \"description\": \"test\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/visa/update/pi_3OK6jfAy9GZXmIvf3XxApqQP",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"visa",
+								"update",
+								"pi_3OK6jfAy9GZXmIvf3XxApqQP"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET GetAll",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
