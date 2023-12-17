@@ -2,6 +2,7 @@ version: '3'
 services:
   techlab-amazon-develop:
     build: ./techlab-amazon-develop
+    container_name: techlab-amazon-develop
     links:
       - fluentd
     logging:
@@ -26,6 +27,7 @@ services:
   techlab-visa-develop:
     build: ./techlab-visa-develop
     container_name: techlab-visa-develop
+    hostname: techlab-visa-develop
     links:
       - fluentd
     logging:
