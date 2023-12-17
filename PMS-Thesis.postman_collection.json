@@ -246,6 +246,112 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Amazon Pay",
+			"item": [
+				{
+					"name": "GET Create checkout session",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/amazon/create-checkout-session",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"amazon",
+								"create-checkout-session"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT Update checkout session",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": \"1.22\",\n    \"currency\": \"USD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/amazon/update-checkout-session/e57eb210-913f-400a-a869-af12c6d760dc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"amazon",
+								"update-checkout-session",
+								"e57eb210-913f-400a-a869-af12c6d760dc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Get checkout session",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/amazon/update-checkout-session/e57eb210-913f-400a-a869-af12c6d760dc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"amazon",
+								"update-checkout-session",
+								"e57eb210-913f-400a-a869-af12c6d760dc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Complete checkout session",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": \"1.22\",\n    \"currency\": \"USD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/amazon/complete-checkout-session/e57eb210-913f-400a-a869-af12c6d760dc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"amazon",
+								"complete-checkout-session",
+								"e57eb210-913f-400a-a869-af12c6d760dc"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

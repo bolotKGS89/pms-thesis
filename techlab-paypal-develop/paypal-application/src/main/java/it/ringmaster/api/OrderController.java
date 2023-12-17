@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/v1/paypal")
+@RequestMapping("/paypal")
 @AllArgsConstructor
 public class OrderController {
     @Autowired

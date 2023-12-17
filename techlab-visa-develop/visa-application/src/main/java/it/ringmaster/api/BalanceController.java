@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Slf4j
-@RequestMapping("/v1/visa/balance")
+@RequestMapping("/visa")
 @AllArgsConstructor
 public class BalanceController {
 
     @Autowired
     private BalanceService service;
 
-    @GetMapping(path = "/retrieve", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/balance/retrieve", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> retrieve() throws StripeException {
         try {
             return new ResponseEntity<>(service.retrieveBalance().toJson(), HttpStatus.OK);

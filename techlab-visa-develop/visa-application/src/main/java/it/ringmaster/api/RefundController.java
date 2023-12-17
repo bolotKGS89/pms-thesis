@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
-@RequestMapping("/v1/visa/refund")
+@RequestMapping("/visa")
 @AllArgsConstructor
 public class RefundController {
 
     @Autowired
     private RefundService service;
 
-    @PostMapping(path = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/refund/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseDto> create(@RequestBody RefundVisaDto refundVisaDto) throws StripeException {
         try {
             Refund refund = service.create(refundVisaDto);
@@ -41,19 +41,19 @@ public class RefundController {
         }
     }
 
-    @GetMapping(path = "/retrieve/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/refund/retrieve/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public RefundVisaDto retrieve(@PathVariable String id) throws StripeException {
         service.retrieve(id);
         return null;
     }
 
-    @PutMapping(path = "/update/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/refund/update/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public RefundVisaDto update(@PathVariable String id, @RequestBody RefundVisaDto refundVisaDto) throws StripeException {
         service.update(id, refundVisaDto);
         return null;
     }
 
-    @GetMapping(path = "/getAll/{limit}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/refund/getAll/{limit}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String>  capture(@PathVariable Integer limit) throws StripeException {
         try {
             RefundCollection collection = service.getAll(limit);

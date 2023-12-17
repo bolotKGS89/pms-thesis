@@ -19,31 +19,45 @@ public class JsonService {
         JSONObject webCheckoutDetails = new JSONObject();
         webCheckoutDetails.put("checkoutReviewReturnUrl", CHECKOUT_URL);
         webCheckoutDetails.put("checkoutResultReturnUrl", CHECKOUT_URL);
+//        webCheckoutDetails.put("checkoutMode", "ProcessOrder");
 
         JSONObject paymentDetails = new JSONObject();
         paymentDetails.put("paymentIntent", "Confirm");
 //        paymentDetails.put("chargeAmount", new JSONObject()
-//                .put("amount", "1")
-//                .put("currency", "USD"));
+//                .put("amount", "1.23")
+//                .put("currencyCode", "USD"));
 
-        JSONObject recurringMetadata = new JSONObject();
+//        JSONObject recurringMetadata = new JSONObject();
 
 
         payload.put("webCheckoutDetails", webCheckoutDetails);
         payload.put("storeId", STORE_ID);
         payload.put("paymentDetails", paymentDetails);
         payload.put("chargePermissionType", "OneTime");
+//        payload.put("productType", "PayAndShip");
 
 //        payload.put("recurringMetadata", recurringMetadata);
 //        recurringMetadata.put("frequency", new JSONObject()
 //                .put("unit", "Variable")
 //                .put("value", "0"));
 
-        payload.put("scopes", new JSONArray()
-                                .put("name")
-                .put("email")
-                .put("phoneNumber")
-                .put("billingAddress"));
+        payload.put("scopes", new JSONArray().put("name")
+                        .put("email")
+                        .put("phoneNumber")
+                .put("shippingAddress"));
+//
+//        JSONObject addressDetails = new JSONObject();
+//        addressDetails
+//                .put("name", "Giuseppe Rossi")
+//                .put("addressLine2", "Via Francesco Saverio Nitti; 30")
+//                .put("city", "Rome")
+//                .put("stateOrRegion", "Lazio")
+//                .put("postalCode", "00156")
+//                .put("countryCode", "IT")
+//                .put("phoneNumber", "+880 9900-111111");
+//
+//        payload.put("shippingAddress", addressDetails);
+
 
 
         return payload;
@@ -73,6 +87,13 @@ public class JsonService {
         chargeAmount.put("currencyCode", currency);
         paymentDetails.put("chargeAmount", chargeAmount);
         payload.put("paymentDetails", paymentDetails);
+
+        JSONObject merchantMetadata = new JSONObject();
+        merchantMetadata.put("merchantReferenceId", "2019-0001");
+        merchantMetadata.put("merchantStoreName", "AmazonTestStoreFront");
+        merchantMetadata.put("noteToBuyer", "noteToBuyer");
+        merchantMetadata.put("customInformation", "custom information goes here");
+        payload.put("merchantMetadata", merchantMetadata);
 
         return payload;
     }

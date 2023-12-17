@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
-@RequestMapping("/v1/charge")
+@RequestMapping("/amazon")
 @AllArgsConstructor
 public class ChargeController {
 

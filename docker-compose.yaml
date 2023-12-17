@@ -2,7 +2,6 @@ version: '3'
 services:
   techlab-amazon-develop:
     build: ./techlab-amazon-develop
-    container_name: techlab-amazon-develop
     links:
       - fluentd
     logging:
@@ -10,12 +9,11 @@ services:
       options:
         fluentd-address: localhost:24224
     networks:
-        - microservices-network
+      - microservices-network
 
   techlab-paypal-develop:
     build: ./techlab-paypal-develop
     container_name: techlab-paypal-develop
-    hostname: techlab-paypal-develop
     links:
       - fluentd
     logging:
@@ -28,7 +26,6 @@ services:
   techlab-visa-develop:
     build: ./techlab-visa-develop
     container_name: techlab-visa-develop
-    hostname: techlab-visa-develop
     links:
       - fluentd
     logging:
@@ -50,33 +47,33 @@ services:
 
 
   techlab-pms-develop:
-      build: ./techlab-pms-develop
-      container_name: techlab-pms-develop
-      depends_on:
-        - techlab-amazon-develop
-        - techlab-paypal-develop
-        - techlab-visa-develop
-      links:
-        - fluentd
-      logging:
-        driver: "fluentd"
-        options:
-          fluentd-address: localhost:24224
-      ports:
-        - "8080:8080"
-      networks:
-        - microservices-network
+    build: ./techlab-pms-develop
+    container_name: techlab-pms-develop
+    depends_on:
+      - techlab-amazon-develop
+      - techlab-paypal-develop
+      - techlab-visa-develop
+    links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+    ports:
+      - "8080:8080"
+    networks:
+      - microservices-network
 
   techlab-ugo:
-      build: ./techlab-ugo
-      links:
-        - fluentd
-      logging:
-        driver: "fluentd"
-        options:
-          fluentd-address: localhost:24224
-      networks:
-        - microservices-network
+    build: ./techlab-ugo
+    links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+    networks:
+      - microservices-network
 
   techlab-ewallet:
     build: ./techlab-ewallet
