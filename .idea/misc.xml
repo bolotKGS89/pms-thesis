@@ -9,6 +9,8 @@
         <option value="$PROJECT_DIR$/techlab-amazon-develop/pom.xml" />
         <option value="$PROJECT_DIR$/techlab-paypal-develop/pom.xml" />
         <option value="$PROJECT_DIR$/techlab-eureka-develop/pom.xml" />
+        <option value="$PROJECT_DIR$/techlab-ewallet/pom.xml" />
+        <option value="$PROJECT_DIR$/techlab-ugo/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

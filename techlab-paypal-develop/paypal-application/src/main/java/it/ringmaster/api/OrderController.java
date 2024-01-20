@@ -38,7 +38,7 @@ public class OrderController {
     }
 
     // capture by id
-    @PostMapping(path = "/capture/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/capture/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> capture(@PathVariable String id) {
         return new ResponseEntity<>(
                 orderService.captureOrder(id).getBody(),
@@ -52,6 +52,20 @@ public class OrderController {
         return new ResponseEntity<>(
                 orderService.refundPayment(id, json).getBody(),
                 orderService.refundPayment(id, json).getStatusCode());
+    }
+
+    // authorize by id
+    @GetMapping(path = "/authorize/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> authorize(@PathVariable String id) {
+        return new ResponseEntity<>(orderService.authorizeOrder(id).getBody(),
+                                    orderService.authorizeOrder(id).getStatusCode());
+    }
+
+    // void authorized payment by id
+    @GetMapping(path = "/void/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> voidPayment(@PathVariable String id) {
+        return new ResponseEntity<>(orderService.voidPayment(id).getBody(),
+                orderService.voidPayment(id).getStatusCode());
     }
 
 }

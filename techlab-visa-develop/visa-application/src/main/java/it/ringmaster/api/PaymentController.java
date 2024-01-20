@@ -51,7 +51,7 @@ public class PaymentController {
             responseDto.setCreated(paymentIntent.getCreated());
             responseDto.setCurrency(paymentIntent.getCurrency());
             responseDto.setDescription(paymentIntent.getDescription());
-            return new ResponseEntity<>(responseDto, HttpStatus.FOUND);
+            return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
         } catch (StripeException e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -68,7 +68,7 @@ public class PaymentController {
             responseDto.setCreated(paymentIntent.getCreated());
             responseDto.setCurrency(paymentIntent.getCurrency());
             responseDto.setDescription(paymentIntent.getDescription());
-            return new ResponseEntity<>(responseDto, HttpStatus.FOUND);
+            return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
         } catch (StripeException e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -85,7 +85,7 @@ public class PaymentController {
             responseDto.setCreated(paymentIntent.getCreated());
             responseDto.setCurrency(paymentIntent.getCurrency());
             responseDto.setDescription(paymentIntent.getDescription());
-            return new ResponseEntity<>(responseDto, HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
         } catch (StripeException e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -113,7 +113,26 @@ public class PaymentController {
     public ResponseEntity<String> getLimit(@PathVariable Integer limit)  {
         try {
             PaymentIntentCollection collection = service.getAll(limit);
-            return new ResponseEntity<>(collection.toJson(), HttpStatus.OK);
+            return new ResponseEntity<>(collection.toJson(), HttpStatus.CREATED);
+        } catch (StripeException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping(path = "/refund/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseDto> refund(@PathVariable String id) {
+        try {
+
+            PaymentIntent paymentIntent = service.retrieve(id);
+            paymentIntent.cancel();
+            ResponseDto responseDto = new ResponseDto();
+            responseDto.setId(paymentIntent.getId());
+            responseDto.setAmount(paymentIntent.getAmount());
+            responseDto.setCreated(paymentIntent.getCreated());
+            responseDto.setCurrency(paymentIntent.getCurrency());
+            responseDto.setDescription(paymentIntent.getDescription());
+            return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
         } catch (StripeException e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

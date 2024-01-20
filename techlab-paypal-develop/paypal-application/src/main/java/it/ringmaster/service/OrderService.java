@@ -1,9 +1,5 @@
 package it.ringmaster.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -17,7 +13,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Base64;
-import java.util.Map;
 
 
 @Slf4j
@@ -34,6 +29,11 @@ public class OrderService {
 
     private static final String PAYPAL_API_URL_PAYMENT = "https://api-m.sandbox.paypal.com/v2/payments/captures";
 
+    private static final String PAYPAL_API_AUTHORIZE_URL = "https://api-m.sandbox.paypal.com/v2/payments/authorizations";
+
+    public ResponseEntity<String> authorizeOrder(String id) {
+        return this.authorize(id);
+    }
 
     public ResponseEntity<String> captureOrder(String id) {
         return this.capture(id);
@@ -48,14 +48,14 @@ public class OrderService {
     }
 
     public ResponseEntity<String> refundPayment(String id, String json) {
-        return this.refundPayment(id, json);
+        return this.makeRefund(id, json);
     }
 
-    private ResponseEntity<String> capture(String id) {
+    public ResponseEntity<String> voidPayment(String id) {
         HttpClient httpClient = HttpClient.newHttpClient();
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(PAYPAL_API_URL + "/" + id + "/capture"))
+                .uri(URI.create(PAYPAL_API_AUTHORIZE_URL + "/" + id + "/void"))
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Basic " + Base64.getEncoder().encodeToString((clientId + ":" + secret).getBytes()))
                 .POST(HttpRequest.BodyPublishers.noBody())
@@ -64,7 +64,47 @@ public class OrderService {
         try {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
-            return ResponseEntity.status(response.statusCode()).body(response.body());
+            return ResponseEntity.status( HttpStatus.CREATED).body(response.body());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error making PayPal API request");
+        }
+    }
+
+    private ResponseEntity<String> authorize(String id) {
+        HttpClient httpClient = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(PAYPAL_API_URL + "/" + id + "/authorize"))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Basic " + Base64.getEncoder().encodeToString((clientId + ":" + secret).getBytes()))
+                .POST(HttpRequest.BodyPublishers.noBody())
+                .build();
+
+        try {
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+            return ResponseEntity.status( HttpStatus.CREATED).body(response.body());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error making PayPal API request");
+        }
+    }
+
+    private ResponseEntity<String> capture(String id) {
+        HttpClient httpClient = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(PAYPAL_API_AUTHORIZE_URL + "/" + id + "/capture"))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Basic " + Base64.getEncoder().encodeToString((clientId + ":" + secret).getBytes()))
+                .POST(HttpRequest.BodyPublishers.noBody())
+                .build();
+
+        try {
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+            return ResponseEntity.status( HttpStatus.CREATED).body(response.body());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error making PayPal API request");
@@ -84,7 +124,7 @@ public class OrderService {
         try {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
-            return ResponseEntity.status(response.statusCode()).body(response.body());
+            return ResponseEntity.status( HttpStatus.CREATED).body(response.body());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error making PayPal API request");
@@ -104,7 +144,7 @@ public class OrderService {
         try {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
-            return ResponseEntity.status(response.statusCode()).body(response.body());
+            return ResponseEntity.status( HttpStatus.CREATED).body(response.body());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error making PayPal API request");
@@ -124,7 +164,7 @@ public class OrderService {
         try {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
-            return ResponseEntity.status(response.statusCode()).body(response.body());
+            return ResponseEntity.status( HttpStatus.CREATED).body(response.body());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error making PayPal API request");

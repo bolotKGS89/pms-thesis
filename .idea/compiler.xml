@@ -12,13 +12,30 @@
         <module name="visa-application" />
         <module name="pms-application" />
       </profile>
+      <profile name="Annotation profile for RINGMASTER METAVERSE - UGO SERVER" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.22/lombok-1.18.22.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.3.Final/mapstruct-processor-1.5.3.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.3.Final/mapstruct-1.5.3.Final.jar" />
+        </processorPath>
+        <module name="ugo-application" />
+        <module name="ugo-core" />
+        <module name="ewl-core" />
+        <module name="ewl-application" />
+        <module name="ewl-liquibase" />
+        <module name="ewl-dtos" />
+        <module name="ugo-dtos" />
+        <module name="ugo-liquibase" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="amazon-core" target="11" />
       <module name="amazon-dtos" target="11" />
       <module name="amazon-liquibase" target="11" />
       <module name="demo" target="17" />
-      <module name="ewl-server" target="11" />
       <module name="paypal-core" target="11" />
       <module name="paypal-dtos" target="11" />
       <module name="paypal-liquibase" target="11" />
@@ -36,6 +53,10 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="demo" options="-parameters" />
+      <module name="ewl-application" options="-Amapstruct.defaultComponentModel=spring" />
+      <module name="ewl-core" options="-Amapstruct.defaultComponentModel=spring" />
+      <module name="ewl-dtos" options="-Amapstruct.defaultComponentModel=spring" />
+      <module name="ewl-liquibase" options="-Amapstruct.defaultComponentModel=spring" />
       <module name="ewl-server" options="-Amapstruct.defaultComponentModel=spring" />
       <module name="paypal-application" options="" />
       <module name="pms-application" options="" />
@@ -43,6 +64,11 @@
       <module name="pms-dtos" options="" />
       <module name="pms-liquibase (2)" options="" />
       <module name="techlab-pms-develop" options="" />
+      <module name="ugo-application" options="-Amapstruct.defaultComponentModel=spring" />
+      <module name="ugo-core" options="-Amapstruct.defaultComponentModel=spring" />
+      <module name="ugo-dtos" options="-Amapstruct.defaultComponentModel=spring" />
+      <module name="ugo-liquibase" options="-Amapstruct.defaultComponentModel=spring" />
+      <module name="ugo-server" options="-Amapstruct.defaultComponentModel=spring" />
     </option>
   </component>
 </project>

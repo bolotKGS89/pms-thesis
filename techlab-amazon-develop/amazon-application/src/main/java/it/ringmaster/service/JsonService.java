@@ -45,7 +45,7 @@ public class JsonService {
                         .put("email")
                         .put("phoneNumber")
                 .put("shippingAddress"));
-//
+
 //        JSONObject addressDetails = new JSONObject();
 //        addressDetails
 //                .put("name", "Giuseppe Rossi")

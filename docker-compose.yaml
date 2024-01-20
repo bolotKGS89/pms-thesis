@@ -3,24 +3,12 @@ services:
   techlab-amazon-develop:
     build: ./techlab-amazon-develop
     container_name: techlab-amazon-develop
-    links:
-      - fluentd
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
     networks:
       - microservices-network
 
   techlab-paypal-develop:
     build: ./techlab-paypal-develop
     container_name: techlab-paypal-develop
-    links:
-      - fluentd
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
     networks:
       - microservices-network
 
@@ -28,12 +16,6 @@ services:
     build: ./techlab-visa-develop
     container_name: techlab-visa-develop
     hostname: techlab-visa-develop
-    links:
-      - fluentd
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
     networks:
       - microservices-network
 
@@ -47,68 +29,44 @@ services:
     networks:
       - microservices-network
 
-
   techlab-pms-develop:
     build: ./techlab-pms-develop
     container_name: techlab-pms-develop
+    ports:
+      - "8080:8080"
     depends_on:
       - techlab-amazon-develop
       - techlab-paypal-develop
       - techlab-visa-develop
-    links:
-      - fluentd
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
-    ports:
-      - "8080:8080"
     networks:
       - microservices-network
 
   techlab-ugo:
     build: ./techlab-ugo
-    links:
-      - fluentd
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
     networks:
       - microservices-network
 
   techlab-ewallet:
     build: ./techlab-ewallet
-    links:
-      - fluentd
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
+    ports:
+      - "8203:8203"
+      - "5005:5005"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: admin
     networks:
       - microservices-network
 
   postgres:
-    image: postgres
-    container_name: postgres-db
-    hostname: postgres
-    environment:
-      POSTGRES_DB: ugo, ewallet, pms
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: password
-    networks:
-      - microservices-network
-
-  fluentd:
-    image: fluentd:latest
-    hostname: fluentd
-    volumes:
-      - ${HOME}/fluentd/fluent.conf:/fluentd/etc/fluent.conf
-    environment:
-      HOME: /home/bolot
+    build: ./techlab-ewallet/ewl-liquibase/docker
     ports:
-      - "24224:24224"
-      - "24224:24224/udp"
+      - "5432:5432"
+    restart: always
+    container_name: ewl-DB
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: postgres
     networks:
       - microservices-network
 
