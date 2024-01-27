@@ -95,7 +95,7 @@ public class PaymentController {
     @GetMapping(path = "/capture/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseDto> capture(@PathVariable String id) {
         try {
-            PaymentIntent paymentIntent = service.capture(id);
+            PaymentIntent paymentIntent = service.cancel(id);
             ResponseDto responseDto = new ResponseDto();
             responseDto.setId(paymentIntent.getId());
             responseDto.setAmount(paymentIntent.getAmount());

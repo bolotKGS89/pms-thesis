@@ -1,0 +1,30 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    script(type="text/javascript", src="/players/player.js")
+    title Player Form
+  body
+    h1 Player Form
+    form(id="playerForm")
+      label(for="playerId") Player ID:
+      input(type="number", name="playerId", required)
+      br
+
+      label(for="username") Username:
+      input(type="text", name="username", required)
+      br
+
+      label(for="password") Password:
+      input(type="password", name="password", required)
+      br
+
+      label(for="user-email") E-mail:
+      input(type="email", name="user-email", required)
+      br
+
+      button(type="button", onclick="createPlayer()") Create
+      button(type="button", onclick="retrievePlayer()") Retrieve
+      button(type="button", onclick="updatePlayer()") Update
+      button(type="button", onclick="deletePlayer()") Delete

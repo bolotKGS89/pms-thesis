@@ -43,18 +43,34 @@ services:
 
   techlab-ugo:
     build: ./techlab-ugo
+    container_name: techlab-ugo
+    hostname: techlab-ugo
+    ports:
+      - "8200:8200"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ugo
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: admin
     networks:
       - microservices-network
 
   techlab-ewallet:
     build: ./techlab-ewallet
+    container_name: techlab-ewallet
+    hostname: techlab-ewallet
     ports:
       - "8203:8203"
-      - "5005:5005"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: admin
+    networks:
+      - microservices-network
+
+  techlab-fe-mock-node:
+    build: ./techlab-fe-mock-node
+    ports:
+      - "3000:3000"
     networks:
       - microservices-network
 

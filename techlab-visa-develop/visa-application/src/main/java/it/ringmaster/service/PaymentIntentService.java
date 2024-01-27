@@ -56,10 +56,10 @@ public class PaymentIntentService {
         return paymentIntent.update(chargeParams);
     }
 
-    public PaymentIntent capture(String id) throws StripeException {
+    public PaymentIntent cancel(String id) throws StripeException {
         PaymentIntent paymentIntent =
                 PaymentIntent.retrieve(id);
-        return paymentIntent.capture();
+        return paymentIntent.cancel();
     }
 
     public PaymentIntentCollection getAll(Integer limit) throws StripeException

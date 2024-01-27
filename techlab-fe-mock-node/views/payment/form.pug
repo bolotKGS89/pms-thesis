@@ -1,0 +1,51 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    script(type="text/javascript", src="/payment.js")
+    title Wallet
+  body
+    h1 My Wallet
+    form(id="paymentForm")
+      label(for="transactionId") Transaction id:
+      input(type="text", name="transactionId", required)
+      br
+
+      label(for="amount") Amount:
+      input(type="number", name="amount", required)
+      br
+
+      label(for="type") Payment type:
+      label(for="Visa") VISA
+      input(type="radio", name="type", value="Visa", required, onclick="setType('Visa')")
+      label(for="PayPal") PayPal
+      input(type="radio", name="type", value="PayPal", required, onclick="setType('Paypal')")
+      label(for="Amazon") Amazon
+      input(type="radio", name="type", value="Amazon", required, onclick="setType('Amazon')")
+      br
+
+      label(for="currency") Currency:
+      label(for="USD") USD
+      input(type="radio", name="currency", value="USD", required)
+      label(for="USD") EUR
+      input(type="radio", name="currency", value="EUR", required)
+      br
+
+      label(for="description") Description:
+      textarea(name="description", cols="30", rows="10", required)
+      br
+
+      div(id="intentSection" style="display:none;")
+        label(for="intent") Intent:
+        label(for="capture") Capture
+        input(type="radio", name="intent", value="CAPTURE", required)
+        label(for="authorize") Authorize
+        input(type="radio", name="intent", value="AUTHORIZE", required)
+        br
+
+      button(type="button", onclick="createPayment()") Create
+      button(type="button", onclick="retrievePayment()") Retrieve
+      button(type="button", onclick="confirmOrAuthorizePayment()") Confirm/Authorize
+      button(type="button", onclick="capturePayment()") Capture
+      button(type="button", onclick="capturePayment()") Refund
