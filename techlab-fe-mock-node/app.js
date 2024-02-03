@@ -3,6 +3,7 @@ import amazonController from './controller/AmazonController.js';
 import paypalController from './controller/PayPalController.js';
 import formController from './controller/FormController.js';
 import playerController from './controller/PlayerController.js';
+import walletController from './controller/WalletController.js';
 import config from './config.js';
 import express from 'express';
 import { getRootDirectory } from './utils.js';
@@ -25,6 +26,7 @@ app.use(paypalController);
 app.use(amazonController);
 app.use(formController);
 app.use(playerController);
+app.use(walletController);
 
 app.listen(port, () => {
     console.log(`Mock Front-End Microservice is running at http://localhost:${port}`);

@@ -48,9 +48,12 @@ services:
     ports:
       - "8200:8200"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ugo
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres?currentSchema=ugo
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_DATASOURCE_DRIVER_CLASS: org.postgresql.Driver
+    depends_on:
+      - postgres
     networks:
       - microservices-network
 
@@ -61,16 +64,12 @@ services:
     ports:
       - "8203:8203"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres?currentSchema=techlab_ewl
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: admin
-    networks:
-      - microservices-network
-
-  techlab-fe-mock-node:
-    build: ./techlab-fe-mock-node
-    ports:
-      - "3000:3000"
+      SPRING_DATASOURCE_DRIVER_CLASS: org.postgresql.Driver
+    depends_on:
+      - postgres
     networks:
       - microservices-network
 
@@ -79,10 +78,17 @@ services:
     ports:
       - "5432:5432"
     restart: always
-    container_name: ewl-DB
     environment:
       POSTGRES_PASSWORD: admin
+      POSTGRES_USERNAME: postgres
       POSTGRES_DB: postgres
+    networks:
+      - microservices-network
+
+  techlab-fe-mock-node:
+    build: ./techlab-fe-mock-node
+    ports:
+      - "3000:3000"
     networks:
       - microservices-network
 

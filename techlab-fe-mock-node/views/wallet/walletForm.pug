@@ -1,0 +1,31 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    script(type="text/javascript", src="/wallet/wallet.js")
+    title Wallet Form
+  body
+    h1 Wallet Form
+    form(id="walletForm")
+      label(for="walletId") WalletId:
+      input(type="number", name="walletId", required)
+      br
+
+      label(for="pocketType") Pocket Type:
+      input(type="number", name="pocketType", required)
+      br
+  
+      label(for="amount") Amount:
+      input(type="number", name="amount", required)
+      br
+
+      label(for="currency") Currency:
+      label(for="USD") USD
+      input(type="radio", name="currency", value="USD", required)
+      label(for="currency") EUR
+      input(type="radio", name="currency", value="EUR", required)
+      br
+
+      button(type="button", onclick="debit()") Debit
+      button(type="button", onclick="credit()") Credit
