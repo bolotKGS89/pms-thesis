@@ -3,13 +3,21 @@ html(lang="en")
   head
     meta(charset="UTF-8")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    script(type="text/javascript", src="/payment.js")
+    script(type="text/javascript", src="/payment/payment.js")
     title Wallet
   body
     h1 My Wallet
     form(id="paymentForm")
-      label(for="transactionId") Transaction id:
-      input(type="text", name="transactionId", required)
+      label(for="id") Transaction id:
+      input(type="text", name="id", required)
+      br
+
+      label(for="walletId") Wallet ID:
+      input(type="number", name="walletId", required)
+      br
+
+      label(for="pocketType") Pocket Type:
+      input(type="number", name="pocketType", required)
       br
 
       label(for="amount") Amount:
