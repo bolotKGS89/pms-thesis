@@ -2,10 +2,18 @@
 import express from 'express';
 import config from '../config.js';
 import axios from 'axios';
+import { v4 } from 'uuid';
 const router = express.Router();
 
+const requestHeaders = {
+  'X-Request-ID' : v4().toString(),
+  'Service-Name' : 'techlab-fe-mock-node'
+}
+
 const createPlayer = (req, res) => {
-    axios.post(`${config.ugoUrl}`, req.body)
+  axios.post(`${config.ugoUrl}`, req.body, {
+    headers: requestHeaders
+  })
     .then(response => {
       console.log('Response:', response.data);
       res.send(response.data);
@@ -20,7 +28,9 @@ const retrievePlayer = (req, res) => {
       // Use req.params.id to access the id parameter
     const { id } = req.params;
 
-    axios.get(`${config.ugoUrl}/${id}`)
+    axios.get(`${config.ugoUrl}/${id}`,{
+      headers: requestHeaders
+    })
     .then(response => {
       console.log('Response:', response.data);
       res.send(response.data);
@@ -35,7 +45,9 @@ const updatePlayer = (req, res) => {
   // Use req.params.id to access the id parameter
   const { id } = req.params;
 
-  axios.put(`${config.ugoUrl}/${id}`, req.body)
+  axios.put(`${config.ugoUrl}/${id}`, req.body, {
+    headers: requestHeaders
+  })
   .then(response => {
     console.log('Response:', response.data);
     res.send(response.data);
@@ -50,7 +62,9 @@ const deletePlayer = (req, res) => {
   // Use req.params.id to access the id parameter
   const { id } = req.params;
 
-  axios.delete(`${config.ugoUrl}/${id}`)
+  axios.delete(`${config.ugoUrl}/${id}`, {
+    headers: requestHeaders
+  })
   .then(response => {
     console.log('Response:', response.data);
     res.send(response.data);

@@ -3,12 +3,16 @@ services:
   techlab-amazon-develop:
     build: ./techlab-amazon-develop
     container_name: techlab-amazon-develop
+    depends_on:
+      - logstash
     networks:
       - microservices-network
 
   techlab-paypal-develop:
     build: ./techlab-paypal-develop
     container_name: techlab-paypal-develop
+    depends_on:
+      - logstash
     networks:
       - microservices-network
 
@@ -16,6 +20,21 @@ services:
     build: ./techlab-visa-develop
     container_name: techlab-visa-develop
     hostname: techlab-visa-develop
+    depends_on:
+      - logstash
+    networks:
+      - microservices-network
+
+  techlab-pms-develop:
+    build: ./techlab-pms-develop
+    container_name: techlab-pms-develop
+    ports:
+      - "8080:8080"
+    depends_on:
+      - techlab-amazon-develop
+      - techlab-paypal-develop
+      - techlab-visa-develop
+      - logstash
     networks:
       - microservices-network
 
@@ -29,15 +48,12 @@ services:
     networks:
       - microservices-network
 
-  techlab-pms-develop:
-    build: ./techlab-pms-develop
-    container_name: techlab-pms-develop
+  techlab-fe-mock-node:
+    build: ./techlab-fe-mock-node
     ports:
-      - "8080:8080"
+      - "3000:3000"
     depends_on:
-      - techlab-amazon-develop
-      - techlab-paypal-develop
-      - techlab-visa-develop
+      - logstash
     networks:
       - microservices-network
 
@@ -73,6 +89,18 @@ services:
     networks:
       - microservices-network
 
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.16.3
+    container_name: logstash
+    hostname: logstash
+    volumes:
+      - ./logstash-config:/usr/share/logstash/pipeline
+      - ./logs:/usr/share/logstash/logs  # Mount logs directory
+    ports:
+      - "5000:5000"  # Adjust the port as needed
+    networks:
+      - microservices-network
+
   postgres:
     build: ./techlab-ewallet/ewl-liquibase/docker
     ports:
@@ -82,13 +110,6 @@ services:
       POSTGRES_PASSWORD: admin
       POSTGRES_USERNAME: postgres
       POSTGRES_DB: postgres
-    networks:
-      - microservices-network
-
-  techlab-fe-mock-node:
-    build: ./techlab-fe-mock-node
-    ports:
-      - "3000:3000"
     networks:
       - microservices-network
 

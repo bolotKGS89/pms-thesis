@@ -57,3 +57,7 @@ html(lang="en")
       button(type="button", onclick="confirmOrAuthorizePayment()") Confirm/Authorize
       button(type="button", onclick="capturePayment()") Capture
       button(type="button", onclick="capturePayment()") Refund
+
+      div(id="amazonSection" style="display:none;")
+        button(type="button", onclick="createSession()") Create Session
+        button(type="button", onclick="completeSession()") Complete Session

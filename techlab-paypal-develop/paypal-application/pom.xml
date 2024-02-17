@@ -100,6 +100,11 @@
             <artifactId>javax.json</artifactId>
             <version>1.1.4</version> <!-- Use the version compatible with your environment -->
         </dependency>
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>6.5</version> <!-- Use the appropriate version -->
+        </dependency>
 
     </dependencies>
 

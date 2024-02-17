@@ -2,10 +2,18 @@
 import express from 'express';
 import config from '../config.js';
 import axios from 'axios';
+import { v4 } from 'uuid';
 const router = express.Router();
 
+const requestHeaders = {
+  'X-Request-ID' : v4().toString(),
+  'Service-Name' : 'techlab-fe-mock-node'
+}
+
 const createPayment = (req, res) => {
-  axios.post(`${config.ewalletUrl}/create`, req.body)
+  axios.post(`${config.ewalletUrl}/create`, req.body, {
+    headers: requestHeaders
+  })
   .then(response => {
     console.log('Response:', response.data);
     res.send(response.data);
@@ -21,7 +29,9 @@ const retrievePayment = (req, res) => {
   const { id } = req.params;
   
 
-  axios.get(`${config.ewalletUrl}/retrieve/visa/${id}`)
+  axios.get(`${config.ewalletUrl}/retrieve/visa/${id}`, {
+    headers: requestHeaders
+  })
     .then(response => {
       console.log('Response:', response.data);
       res.send(response.data);
@@ -37,7 +47,9 @@ const confirmPayment = (req, res) => {
   const { id } = req.params;
   
 
-  axios.get(`${config.ewalletUrl}/confirm/visa/${id}`)
+  axios.get(`${config.ewalletUrl}/confirm/visa/${id}`, {
+    headers: requestHeaders
+  })
     .then(response => {
       console.log('Response:', response.data);
       res.send(response.data);
@@ -50,7 +62,9 @@ const confirmPayment = (req, res) => {
 
 const refundPayment = (req, res) => {
 
-  axios.post(`${config.ewalletUrl}/refund`, req.body)
+  axios.post(`${config.ewalletUrl}/refund`, req.body, {
+    headers: requestHeaders
+  })
     .then(response => {
       console.log('Response:', response.data);
       res.send(response.data);
@@ -66,7 +80,9 @@ const capturePayment = (req, res) => {
   const { id } = req.params;
   
 
-  axios.get(`${config.ewalletUrl}/capture/visa/${id}`)
+  axios.get(`${config.ewalletUrl}/capture/visa/${id}`, {
+    headers: requestHeaders
+  })
     .then(response => {
       console.log('Response:', response.data);
       res.send(response.data);

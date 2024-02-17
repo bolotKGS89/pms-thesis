@@ -24,48 +24,61 @@ public class OrderController {
 
     // create order
     @PostMapping(path = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> create(@RequestBody PaymentDto paymentDto)  {
+    public ResponseEntity<String> create(@RequestHeader(value = "X-Request-ID", required = false) String xRequestId,
+                                         @RequestHeader(value = "Service-Name", required = false) String serviceName,
+                                         @RequestBody PaymentDto paymentDto)  {
         String json = jsonService.export(paymentDto.getIntent(), paymentDto.getTotal(), paymentDto.getCurrency());
-        return new ResponseEntity<>(orderService.createOrder(json).getBody(),
-                orderService.createOrder(json).getStatusCode());
+
+        return new ResponseEntity<>(orderService.createOrder(json, serviceName, xRequestId).getBody(),
+                orderService.createOrder(json, serviceName, xRequestId).getStatusCode());
     }
 
     // retrieve order details
     @GetMapping(path = "/retrieve/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> retrieve(@PathVariable String id) {
-        return new ResponseEntity<>(orderService.retrieveOrder(id).getBody(),
-                orderService.retrieveOrder(id).getStatusCode());
+    public ResponseEntity<String> retrieve(@RequestHeader(value = "X-Request-ID", required = false) String xRequestId,
+                                           @RequestHeader(value = "Service-Name", required = false) String serviceName,
+                                           @PathVariable String id) {
+        return new ResponseEntity<>(orderService.retrieveOrder(id, serviceName, xRequestId).getBody(),
+                orderService.retrieveOrder(id, serviceName, xRequestId).getStatusCode());
     }
 
     // capture by id
     @GetMapping(path = "/capture/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> capture(@PathVariable String id) {
+    public ResponseEntity<String> capture(@RequestHeader(value = "X-Request-ID", required = false) String xRequestId,
+                                          @RequestHeader(value = "Service-Name", required = false) String serviceName,
+                                          @PathVariable String id) {
         return new ResponseEntity<>(
-                orderService.captureOrder(id).getBody(),
-                orderService.captureOrder(id).getStatusCode());
+                orderService.captureOrder(id, serviceName, xRequestId).getBody(),
+                orderService.captureOrder(id, serviceName, xRequestId).getStatusCode());
     }
 
     // refund by id
     @PostMapping(path = "/refund/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> refund(@PathVariable String id, @RequestBody PaymentDto paymentDto) {
+    public ResponseEntity<String> refund(@RequestHeader(value = "X-Request-ID", required = false) String xRequestId,
+                                         @RequestHeader(value = "Service-Name", required = false) String serviceName,
+                                         @PathVariable String id, @RequestBody PaymentDto paymentDto) {
         String json = jsonService.createRefund(paymentDto.getTotal(), paymentDto.getCurrency(), paymentDto.getNote());
         return new ResponseEntity<>(
-                orderService.refundPayment(id, json).getBody(),
-                orderService.refundPayment(id, json).getStatusCode());
+                orderService.refundPayment(id, json, serviceName, xRequestId).getBody(),
+                orderService.refundPayment(id, json, serviceName, xRequestId).getStatusCode());
     }
 
     // authorize by id
     @GetMapping(path = "/authorize/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> authorize(@PathVariable String id) {
-        return new ResponseEntity<>(orderService.authorizeOrder(id).getBody(),
-                                    orderService.authorizeOrder(id).getStatusCode());
+    public ResponseEntity<String> authorize(@RequestHeader(value = "X-Request-ID", required = false) String xRequestId,
+                                            @RequestHeader(value = "Service-Name", required = false) String serviceName,
+                                            @PathVariable String id) {
+        return new ResponseEntity<>(orderService.authorizeOrder(id, serviceName, xRequestId).getBody(),
+                                    orderService.authorizeOrder(id, serviceName, xRequestId).getStatusCode());
     }
 
     // void authorized payment by id
     @GetMapping(path = "/void/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> voidPayment(@PathVariable String id) {
-        return new ResponseEntity<>(orderService.voidPayment(id).getBody(),
-                orderService.voidPayment(id).getStatusCode());
+    public ResponseEntity<String> voidPayment(@RequestHeader(value = "X-Request-ID", required = false) String xRequestId,
+                                              @RequestHeader(value = "Service-Name", required = false) String serviceName,
+                                              @PathVariable String id) {
+        return new ResponseEntity<>(orderService.voidPayment(id, serviceName, xRequestId).getBody(),
+                orderService.voidPayment(id, serviceName, xRequestId).getStatusCode());
     }
 
 }

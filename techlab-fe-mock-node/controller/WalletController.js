@@ -1,10 +1,19 @@
 import express from 'express';
 import config from '../config.js';
 import axios from 'axios';
+import { v4 } from 'uuid';
 const router = express.Router();
 
+
+const requestHeaders = {
+  'X-Request-ID' : v4().toString(),
+  'Service-Name' : 'techlab-fe-mock-node'
+}
+
 const sendCredit = (req, res) => {
-    axios.post(`${config.paymentUrl}/credit`, req.body)
+    axios.post(`${config.paymentUrl}/credit`, req.body, {
+      headers: requestHeaders
+    })
     .then(response => {
       console.log('Response:', response.data);
       res.send(response.data);
@@ -16,7 +25,9 @@ const sendCredit = (req, res) => {
 }
 
 const sendDebit = (req, res) => {
-    axios.post(`${config.paymentUrl}/debit`, req.body)
+    axios.post(`${config.paymentUrl}/debit`, req.body, {
+      headers: requestHeaders
+    })
     .then(response => {
       console.log('Response:', response.data);
       res.send(response.data);
@@ -31,7 +42,9 @@ const retrieve = (req, res) => {
     // Use req.params.id to access the id parameter
     const { id } = req.params;
 
-    axios.get(`${config.ewalletUrl}/${id}`)
+    axios.get(`${config.ewalletUrl}/${id}`, {
+      headers: requestHeaders
+    })
     .then(response => {
       console.log('Response:', response.data);
       res.send(JSON.parse(response.data));

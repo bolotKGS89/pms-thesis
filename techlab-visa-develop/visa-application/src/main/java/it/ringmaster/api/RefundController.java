@@ -24,8 +24,11 @@ public class RefundController {
     private RefundService service;
 
     @PostMapping(path = "/refund/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseDto> create(@RequestBody RefundVisaDto refundVisaDto) throws StripeException {
+    public ResponseEntity<ResponseDto> create(@RequestHeader(value = "X-Request-ID", required = false) String xRequestId,
+                                              @RequestHeader(value = "Service-Name", required = false) String serviceName,
+                                              @RequestBody RefundVisaDto refundVisaDto) throws StripeException {
         try {
+            log.info("Receiving request (refund) from {} (request_id {})", serviceName, xRequestId);
             Refund refund = service.create(refundVisaDto);
             ResponseDto responseDto = new ResponseDto();
             responseDto.setId(refund.getId());
@@ -34,8 +37,10 @@ public class RefundController {
             responseDto.setCreated(refund.getCreated());
             responseDto.setCurrency(refund.getCurrency());
             responseDto.setDescription(refund.getDescription());
+            log.info("Responding to request (refund) from {} (request_id {})", "techlab-visa-develop", xRequestId);
             return new ResponseEntity<>(responseDto, HttpStatus.ACCEPTED);
         } catch (StripeException e) {
+            log.error("Error response (refund) (code: {}) received from {} (request_id {})", e.getCause(), serviceName, xRequestId);
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -8,8 +8,10 @@ import config from './config.js';
 import express from 'express';
 import { getRootDirectory } from './utils.js';
 
+
 const app = express();
 const port = config.server.port;
+
 
 // the root directory using the utility function
 const rootDirectory = getRootDirectory();

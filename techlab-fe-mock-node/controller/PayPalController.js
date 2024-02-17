@@ -2,10 +2,18 @@
 import express from 'express';
 import config from '../config.js';
 import axios from 'axios';
+import { v4 } from 'uuid';
 const router = express.Router();
 
+const requestHeaders = {
+  'X-Request-ID' : v4().toString(),
+  'Service-Name' : 'techlab-fe-mock-node'
+}
+
 const createPayment = (req, res) => {
-  axios.post(`${config.ewalletUrl}/create`, req.body)
+  axios.post(`${config.ewalletUrl}/create`, req.body, {
+    headers: requestHeaders
+  })
   .then(response => {
     console.log('Response:', response.data);
     res.send(response.data);
@@ -21,7 +29,9 @@ const authorizePayment = (req, res) => {
   const { id } = req.params;
   
 
-  axios.get(`${config.ewalletUrl}/authorize/${id}`)
+  axios.get(`${config.ewalletUrl}/authorize/${id}`, {
+    headers: requestHeaders
+  })
     .then(response => {
       console.log('Response:', response.data);
       res.send(response.data);
@@ -36,7 +46,9 @@ const capturePayment = (req, res) => {
   // Use req.params.id to access the id parameter
   const { id } = req.params;
 
-  axios.get(`${config.ewalletUrl}/capture/paypal/${id}`)
+  axios.get(`${config.ewalletUrl}/capture/paypal/${id}`, {
+    headers: requestHeaders
+  })
     .then(response => {
       console.log('Response:', response.data);
       res.send(response.data);
@@ -48,7 +60,9 @@ const capturePayment = (req, res) => {
 }
 
 const refundPayment = (req, res) => {
-  axios.post(`${config.ewalletUrl}/refund`, req.body)
+  axios.post(`${config.ewalletUrl}/refund`, req.body, {
+    headers: requestHeaders
+  })
   .then(response => {
     console.log('Response:', response.data);
     res.send(response.data);
@@ -63,7 +77,9 @@ const retrievePayment = (req, res) => {
   // Use req.params.id to access the id parameter
   const { id } = req.params;
 
-  axios.get(`${config.ewalletUrl}/retrieve/paypal/${id}`)
+  axios.get(`${config.ewalletUrl}/retrieve/paypal/${id}`, {
+    headers: requestHeaders
+  })
     .then(response => {
       console.log('Response:', response.data);
       res.send(response.data);
