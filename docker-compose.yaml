@@ -1,65 +1,90 @@
 version: '3'
 services:
-  techlab-amazon-develop:
+  techlab_amazon:
     build: ./techlab-amazon-develop
-    container_name: techlab-amazon-develop
+    container_name: techlab_amazon
+    hostname: amazon
     depends_on:
       - logstash
+      - consul_server
     networks:
       - microservices-network
+    logging:
+      driver: gelf
+      options:
+        tag : techlab-amazon-develop
+        gelf-address: udp://localhost:12201
 
-  techlab-paypal-develop:
+  techlab_paypal:
     build: ./techlab-paypal-develop
-    container_name: techlab-paypal-develop
+    container_name: techlab_paypal
+    hostname: paypal
     depends_on:
       - logstash
+      - consul_server
     networks:
       - microservices-network
+    logging:
+      driver: gelf
+      options:
+        tag : techlab-paypal-develop
+        gelf-address: udp://localhost:12201
 
-  techlab-visa-develop:
+  techlab_visa:
     build: ./techlab-visa-develop
-    container_name: techlab-visa-develop
-    hostname: techlab-visa-develop
+    container_name: techlab_visa
+    hostname: visa
     depends_on:
       - logstash
+      - consul_server
     networks:
       - microservices-network
+    logging:
+      driver: gelf
+      options:
+        tag : techlab-visa-develop
+        gelf-address: udp://localhost:12201
 
-  techlab-pms-develop:
+  techlab_pms:
     build: ./techlab-pms-develop
-    container_name: techlab-pms-develop
-    ports:
-      - "8080:8080"
+    container_name: techlab_pms
+    hostname: techlab-pms-develop
     depends_on:
-      - techlab-amazon-develop
-      - techlab-paypal-develop
-      - techlab-visa-develop
-      - logstash
+      - techlab_amazon
+      - techlab_paypal
+      - techlab_visa
+      - consul_server
     networks:
       - microservices-network
 
-  consul-server:
-    container_name: consul-server
-    image: consul:1.14.8
-    hostname: consul-server
+  consul_server:
+    container_name: consul
+    image: consul:1.15.2
+    hostname: consul
     ports:
       - "8500:8500"
     command: 'agent -server -bootstrap-expect=1 -ui -bind=0.0.0.0 -client=0.0.0.0'
     networks:
       - microservices-network
 
-  techlab-fe-mock-node:
-    build: ./techlab-fe-mock-node
+  techlab_fe:
+    build: techlab_fe
+    container_name: techlab_fe
     ports:
       - "3000:3000"
     depends_on:
       - logstash
     networks:
       - microservices-network
+    logging:
+      driver: gelf
+      options:
+        tag: techlab_fe
+        gelf-address: udp://localhost:12201
 
-  techlab-ugo:
+  techlab_ugo:
     build: ./techlab-ugo
-    container_name: techlab-ugo
+    container_name: techlab_ugo
     hostname: techlab-ugo
     ports:
       - "8200:8200"
@@ -72,10 +97,15 @@ services:
       - postgres
     networks:
       - microservices-network
+    logging:
+      driver: gelf
+      options:
+        tag : techlab-ugo
+        gelf-address: udp://localhost:12201
 
-  techlab-ewallet:
+  techlab_ewallet:
     build: ./techlab-ewallet
-    container_name: techlab-ewallet
+    container_name: techlab_ewallet
     hostname: techlab-ewallet
     ports:
       - "8203:8203"
@@ -88,6 +118,11 @@ services:
       - postgres
     networks:
       - microservices-network
+    logging:
+      driver: gelf
+      options:
+        tag : techlab_ewallet
+        gelf-address: udp://localhost:12201
 
   logstash:
     image: docker.elastic.co/logstash/logstash:7.16.3
@@ -100,6 +135,10 @@ services:
       - "5000:5000"  # Adjust the port as needed
     networks:
       - microservices-network
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://localhost:12201
 
   postgres:
     build: ./techlab-ewallet/ewl-liquibase/docker

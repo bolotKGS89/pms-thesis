@@ -5,8 +5,19 @@
         <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
     </appender>
 
-    <!-- Root logger configuration -->
+     Root logger configuration
     <root level="info">
         <appender-ref ref="logstash" />
     </root>
+<!--    &lt;!&ndash; Define the appenders &ndash;&gt;-->
+<!--    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">-->
+<!--        <encoder>-->
+<!--            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
+
+<!--    &lt;!&ndash; Root logger configuration &ndash;&gt;-->
+<!--    <root level="INFO">-->
+<!--        <appender-ref ref="console" />-->
+<!--    </root>-->
 </configuration>

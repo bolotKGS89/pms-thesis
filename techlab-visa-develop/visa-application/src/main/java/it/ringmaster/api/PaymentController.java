@@ -15,6 +15,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 @RestController
 @Slf4j
 @RequestMapping("/visa")
@@ -25,11 +31,15 @@ public class PaymentController {
     private PaymentIntentService service;
 
     @PostMapping(path = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseDto> create(@RequestHeader(value = "X-Request-ID", required = false) String xRequestId,
+    public ResponseEntity<Object> create(@RequestHeader(value = "X-Request-ID", required = false) String xRequestId,
                                               @RequestHeader(value = "Service-Name", required = false) String serviceName,
                                               @RequestBody PaymentVisaDto paymentDto) {
         try {
-            log.info("Receiving request (create) from {} (request_id {})", serviceName, xRequestId);
+            log.info("Received POST request from {} (request_id: {})", serviceName, xRequestId);
+            if (serviceName.equals("visa")) {
+                log.error("visa failed");
+                throw new Exception();
+            }
             PaymentIntent paymentIntent = service.create(paymentDto);
             ResponseDto responseDto = new ResponseDto();
             responseDto.setId(paymentIntent.getId());
@@ -37,21 +47,24 @@ public class PaymentController {
             responseDto.setCreated(paymentIntent.getCreated());
             responseDto.setCurrency(paymentIntent.getCurrency());
             responseDto.setDescription(paymentIntent.getDescription());
-            log.info("Responding to request (create) from {} (request_id {})", "techlab-visa-develop", xRequestId);
+            log.info("Answered to POST request from {} with code: {} (request_id: {})", serviceName, "200", xRequestId);
             return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
-        } catch (StripeException e) {
-            log.error("Error response (create) (code: {}) received from {} (request_id {})", e.getCause(), serviceName, xRequestId);
+        } catch (Exception e) {
+            log.error("Answered to POST request from {} with code: {} (request_id: {})", serviceName, "500", xRequestId);
             e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("serviceName", "visa");
+            errorResponse.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
 
     @GetMapping(path = "/retrieve/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseDto> retrieve(@RequestHeader(value = "X-Request-ID", required = false) String xRequestId,
+    public ResponseEntity<Object> retrieve(@RequestHeader(value = "X-Request-ID", required = false) String xRequestId,
                                                 @RequestHeader(value = "Service-Name", required = false) String serviceName,
-                                                @PathVariable String id) {
+                                                @PathVariable String id) throws UnknownHostException {
         try {
-            log.info("Receiving request (retrieve) from {} (request_id {})", serviceName, xRequestId);
+            log.info("Received GET request from {} (request_id {})", InetAddress.getLocalHost().getHostAddress(), xRequestId);
             PaymentIntent paymentIntent = service.retrieve(id);
             ResponseDto responseDto = new ResponseDto();
             responseDto.setId(paymentIntent.getId());
@@ -59,21 +72,24 @@ public class PaymentController {
             responseDto.setCreated(paymentIntent.getCreated());
             responseDto.setCurrency(paymentIntent.getCurrency());
             responseDto.setDescription(paymentIntent.getDescription());
-            log.info("Responding to request (retrieve) from {} (request_id {})", "techlab-visa-develop", xRequestId);
+            log.info("Answered to GET request from {} with code: {} (request_id {})", InetAddress.getLocalHost().getHostAddress(), "200", xRequestId);
             return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
         } catch (StripeException e) {
-            log.error("Error response (retrieve) (code: {}) received from {} (request_id {})", e.getCause(), serviceName, xRequestId);
+            log.error("Answered to GET request from {} with code: {} (request_id {})", InetAddress.getLocalHost().getHostAddress(), "500", xRequestId);
             e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("serviceName", "techlab_visa");
+            errorResponse.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
 
     @GetMapping(path = "/confirm/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseDto> confirm(@RequestHeader(value = "X-Request-ID", required = false) String xRequestId,
+    public ResponseEntity<Object> confirm(@RequestHeader(value = "X-Request-ID", required = false) String xRequestId,
                                                @RequestHeader(value = "Service-Name", required = false) String serviceName,
-                                               @PathVariable String id) {
+                                               @PathVariable String id) throws UnknownHostException {
         try {
-            log.info("Receiving request (confirm) from {} (request_id {})", serviceName, xRequestId);
+            log.info("Received GET request from {} (request_id {})", InetAddress.getLocalHost().getHostAddress(), xRequestId);
             PaymentIntent paymentIntent = service.confirm(id);
             ResponseDto responseDto = new ResponseDto();
             responseDto.setId(paymentIntent.getId());
@@ -81,22 +97,25 @@ public class PaymentController {
             responseDto.setCreated(paymentIntent.getCreated());
             responseDto.setCurrency(paymentIntent.getCurrency());
             responseDto.setDescription(paymentIntent.getDescription());
-            log.info("Responding to request (confirm) from {} (request_id {})", "techlab-visa-develop", xRequestId);
+            log.info("Answered to GET request from {} with code: {} (request_id {})", InetAddress.getLocalHost().getHostAddress(), "200", xRequestId);
             return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
-        } catch (StripeException e) {
-            log.error("Error response (confirm) (code: {}) received from {} (request_id {})", e.getCause(), serviceName, xRequestId);
+        } catch (StripeException | UnknownHostException e) {
+            log.error("Answered to GET request from {} with code: {} (request_id {})", InetAddress.getLocalHost().getHostAddress(), "500", xRequestId);
             e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("serviceName", "techlab_visa");
+            errorResponse.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
 
     @PutMapping(path = "/update/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseDto> update(@RequestHeader(value = "X-Request-ID", required = false) String xRequestId,
+    public ResponseEntity<Object> update(@RequestHeader(value = "X-Request-ID", required = false) String xRequestId,
                                               @RequestHeader(value = "Service-Name", required = false) String serviceName,
                                               @PathVariable String id,
-                                              @RequestBody PaymentVisaDto paymentDto) {
+                                              @RequestBody PaymentVisaDto paymentDto) throws UnknownHostException {
         try {
-            log.info("Receiving request (update) from {} (request_id {})", serviceName, xRequestId);
+            log.info("Received PUT request from {} (request_id {})", InetAddress.getLocalHost().getHostAddress(), xRequestId);
             PaymentIntent paymentIntent = service.update(id, paymentDto);
             ResponseDto responseDto = new ResponseDto();
             responseDto.setId(paymentIntent.getId());
@@ -104,21 +123,24 @@ public class PaymentController {
             responseDto.setCreated(paymentIntent.getCreated());
             responseDto.setCurrency(paymentIntent.getCurrency());
             responseDto.setDescription(paymentIntent.getDescription());
-            log.info("Responding to request (update) from {} (request_id {})", "techlab-visa-develop", xRequestId);
+            log.info("Answered to PUT request from {} with code: {} (request_id {})", InetAddress.getLocalHost().getHostAddress(), "200", xRequestId);
             return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
-        } catch (StripeException e) {
-            log.error("Error response (update) (code: {}) received from {} (request_id {})", e.getCause(), serviceName, xRequestId);
+        } catch (StripeException | UnknownHostException e) {
+            log.error("Answered to PUT request from {} with code: {} (request_id {})", InetAddress.getLocalHost().getHostAddress(), "500", xRequestId);
             e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("serviceName", "techlab_visa");
+            errorResponse.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
 
     @GetMapping(path = "/capture/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseDto> capture(@RequestHeader(value = "X-Request-ID", required = false) String xRequestId,
+    public ResponseEntity<Object> capture(@RequestHeader(value = "X-Request-ID", required = false) String xRequestId,
                                                @RequestHeader(value = "Service-Name", required = false) String serviceName,
-                                               @PathVariable String id) {
+                                               @PathVariable String id)  throws UnknownHostException {
         try {
-            log.info("Receiving request (capture) from {} (request_id {})", serviceName, xRequestId);
+            log.info("Received GET request from {} (request_id {})", InetAddress.getLocalHost().getHostAddress(), xRequestId);
             PaymentIntent paymentIntent = service.cancel(id);
             ResponseDto responseDto = new ResponseDto();
             responseDto.setId(paymentIntent.getId());
@@ -126,37 +148,43 @@ public class PaymentController {
             responseDto.setCreated(paymentIntent.getCreated());
             responseDto.setCurrency(paymentIntent.getCurrency());
             responseDto.setDescription(paymentIntent.getDescription());
-            log.info("Responding to request (capture) from {} (request_id {})", "techlab-visa-develop", xRequestId);
+            log.info("Answered to GET request from {} with code: {} (request_id {})", InetAddress.getLocalHost().getHostAddress(), "200", xRequestId);
             return new ResponseEntity<>(responseDto, HttpStatus.ACCEPTED);
         } catch (StripeException e) {
-            log.error("Error response (capture) (code: {}) received from {} (request_id {})", e.getCause(), serviceName, xRequestId);
+            log.error("Answered to GET request from {} with code: {} (request_id {})", InetAddress.getLocalHost().getHostAddress(), "500", xRequestId);
             e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("serviceName", "techlab_visa");
+            errorResponse.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
 
     @GetMapping(path = "/getAll/{limit}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getLimit(@RequestHeader(value = "X-Request-ID", required = false) String xRequestId,
+    public ResponseEntity<Object> getLimit(@RequestHeader(value = "X-Request-ID", required = false) String xRequestId,
                                            @RequestHeader(value = "Service-Name", required = false) String serviceName,
-                                           @PathVariable Integer limit)  {
+                                           @PathVariable Integer limit) throws UnknownHostException  {
         try {
-            log.info("Receiving request (getAll) from {} (request_id {})", serviceName, xRequestId);
+            log.info("Received GET request from {} (request_id {})", InetAddress.getLocalHost().getHostAddress(), xRequestId);
             PaymentIntentCollection collection = service.getAll(limit);
-            log.info("Responding to request (getAll) from {} (request_id {})", "techlab-visa-develop", xRequestId);
+            log.info("Answered to GET request from {} with code: {} (request_id {})", InetAddress.getLocalHost().getHostAddress(), "200", xRequestId);
             return new ResponseEntity<>(collection.toJson(), HttpStatus.CREATED);
         } catch (StripeException e) {
-            log.error("Error response (getAll) (code: {}) received from {} (request_id {})", e.getCause(), serviceName, xRequestId);
+            log.error("Answered to GET request from {} with code: {} (request_id {})", InetAddress.getLocalHost().getHostAddress(), "500", xRequestId);
             e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("serviceName", "techlab_visa");
+            errorResponse.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
 
     @PostMapping(path = "/refund/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseDto> refund(@RequestHeader(value = "X-Request-ID", required = false) String xRequestId,
+    public ResponseEntity<Object> refund(@RequestHeader(value = "X-Request-ID", required = false) String xRequestId,
                                               @RequestHeader(value = "Service-Name", required = false) String serviceName,
-                                              @PathVariable String id) {
+                                              @PathVariable String id) throws UnknownHostException {
         try {
-            log.info("Receiving request (refund) from {} (request_id {})", serviceName, xRequestId);
+            log.info("Received POST request from {} (request_id {})", "127.0.0.1", xRequestId);
             PaymentIntent paymentIntent = service.retrieve(id);
             paymentIntent.cancel();
             ResponseDto responseDto = new ResponseDto();
@@ -165,12 +193,15 @@ public class PaymentController {
             responseDto.setCreated(paymentIntent.getCreated());
             responseDto.setCurrency(paymentIntent.getCurrency());
             responseDto.setDescription(paymentIntent.getDescription());
-            log.info("Responding to request (refund) from {} (request_id {})", "techlab-visa-develop", xRequestId);
+            log.info("Answered to POST request from {} with code: {} (request_id {})", "127.0.0.1", "200", xRequestId);
             return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
         } catch (StripeException e) {
-            log.error("Error response (refund) (code: {}) received from {} (request_id {})", e.getCause(), serviceName, xRequestId);
+            log.error("Answered to POST request from {} with code: {} (request_id {})", "127.0.0.1", "500", xRequestId);
             e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("serviceName", "techlab_visa");
+            errorResponse.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
 }

@@ -41,3 +41,8 @@ Each payment gateway has a set of endpoints which provide a certain functionalit
 #### Refund
 - **POST /amazon/create-refund/{chargeId}** - Create refund by chargeId
 - **GET /amazon/get-refund/{refundId}** - Get refund by refundId
+
+#### Instructions to Use
+First you need to go root folder of the project and where .yaml file is located
+- **SUDO DOCKER COMPOSE UP -D** - used to start all instances of docker 
+- **SUDO DOCKER COMPOSE DOWN** - used to stop all instances of docker

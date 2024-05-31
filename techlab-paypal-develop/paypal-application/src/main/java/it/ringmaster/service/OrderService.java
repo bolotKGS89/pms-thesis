@@ -13,6 +13,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Slf4j
@@ -62,15 +64,17 @@ public class OrderService {
                 .build();
 
         try {
-            log.info("Receiving request (voidPayment) from {} (request_id {})", serviceName, requestId);
+            log.info("Received GET request from {} (request_id {})", "127.0.0.1", requestId);
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            log.info("Responding to request (voidPayment) from {} (request_id {})", "techlab-paypal-develop", requestId);
-
+            log.info("Answered to GET request from {} with code: {} (request_id {})", "127.0.0.1", "200", requestId);
             return ResponseEntity.status( HttpStatus.CREATED).body(response.body());
         } catch (IOException | InterruptedException e) {
-            log.error("Error response (voidPayment) (code: {}) received from {} (request_id {})", e.getCause(), serviceName, requestId);
+            log.error("Answered to GET request from {} with code: {} (request_id {})", "127.0.0.1", "500", requestId);
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error making PayPal API request");
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("serviceName", "techlab_paypal");
+            errorResponse.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse.toString());
         }
     }
 
@@ -85,15 +89,17 @@ public class OrderService {
                 .build();
 
         try {
-            log.info("Receiving request (authorize) from {} (request_id {})", serviceName, requestId);
+            log.info("Received POST request from {} (request_id {})", "127.0.0.1", requestId);
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            log.info("Responding to request (authorize) from {} (request_id {})", "techlab-paypal-develop", requestId);
-
+            log.info("Answered to POST request from {} with code: {} (request_id {})", "127.0.0.1", "200", requestId);
             return ResponseEntity.status( HttpStatus.CREATED).body(response.body());
         } catch (IOException | InterruptedException e) {
-            log.error("Error response (authorize) (code: {}) received from {} (request_id {})", e.getCause(), serviceName, requestId);
+            log.error("Answered to POST request from {} with code: {} (request_id {})", "127.0.0.1", "500", requestId);
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error making PayPal API request");
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("serviceName", "techlab_paypal");
+            errorResponse.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse.toString());
         }
     }
 
@@ -108,15 +114,17 @@ public class OrderService {
                 .build();
 
         try {
-            log.info("Receiving request (capture) from {} (request_id {})", serviceName, requestId);
+            log.info("Received POST request from {} (request_id {})", "127.0.0.1", requestId);
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            log.info("Responding to request (capture) from {} (request_id {})", "techlab-paypal-develop", requestId);
-
+            log.info("Answered to POST request from {} with code: {} (request_id {})", "127.0.0.1", "200", requestId);
             return ResponseEntity.status( HttpStatus.CREATED).body(response.body());
         } catch (IOException | InterruptedException e) {
-            log.error("Error response (capture) (code: {}) received from {} (request_id {})", e.getCause(), serviceName, requestId);
+            log.error("Answered to POST request from {} with code: {} (request_id {})", "127.0.0.1", "500", requestId);
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error making PayPal API request");
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("serviceName", "techlab_paypal");
+            errorResponse.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse.toString());
         }
     }
 
@@ -131,38 +139,47 @@ public class OrderService {
                 .build();
 
         try {
-            log.info("Receiving request (retrieveById) from {} (request_id {})", serviceName, requestId);
+            log.info("Received GET request from {} (request_id {})", "127.0.0.1", requestId);
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            log.info("Responding to request (retrieveById) from {} (request_id {})", "techlab-paypal-develop", requestId);
-
+            log.info("Answered to GET request from {} with code: {} (request_id {})", "127.0.0.1", "200", requestId);
             return ResponseEntity.status( HttpStatus.CREATED).body(response.body());
         } catch (IOException | InterruptedException e) {
-            log.error("Error response (retrieveById) (code: {}) received from {} (request_id {})", e.getCause(), serviceName, requestId);
+            log.error("Answered to GET request from {} with code: {} (request_id {})", "127.0.0.1", "500", requestId);
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error making PayPal API request");
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("serviceName", "techlab_paypal");
+            errorResponse.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse.toString());
         }
     }
 
     private ResponseEntity<String> makePaymentPost(String jsonPayload, String serviceName, String requestId)  {
         HttpClient httpClient = HttpClient.newHttpClient();
 
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(PAYPAL_API_URL))
-                .header("Content-Type", "application/json")
-                .header("Authorization", "Basic " + Base64.getEncoder().encodeToString((clientId + ":" + secret).getBytes()))
-                .POST(HttpRequest.BodyPublishers.ofString(jsonPayload))
-                .build();
-
         try {
-            log.info("Receiving request (makePaymentPost) from {} (request_id {})", serviceName, requestId);
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            log.info("Responding to request (makePaymentPost) from {} (request_id {})", "techlab-paypal-develop", requestId);
+            log.info("Received POST request from {} (request_id: {})", serviceName, requestId);
+            if (serviceName.equals("paypal")) {
+                log.error("paypal failed");
+                throw new Exception();
+            }
 
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(PAYPAL_API_URL))
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", "Basic " + Base64.getEncoder().encodeToString((clientId + ":" + secret).getBytes()))
+                    .POST(HttpRequest.BodyPublishers.ofString(jsonPayload))
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            log.info("Answered to POST request from {} with code: {} (request_id: {})", serviceName, "200", requestId);
             return ResponseEntity.status( HttpStatus.CREATED).body(response.body());
-        } catch (IOException | InterruptedException e) {
-            log.error("Error response (makePaymentPost) (code: {}) received from {} (request_id {})", e.getCause(), serviceName, requestId);
+        } catch (Exception e) {
+            log.error("Answered to POST request from {} with code: {} (request_id: {})", serviceName, "500", requestId);
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error making PayPal API request");
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("serviceName", "paypal");
+            errorResponse.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse.toString());
         }
     }
 
@@ -177,14 +194,17 @@ public class OrderService {
                 .build();
 
         try {
-            log.info("Receiving request (makeRefund) from {} (request_id {})", serviceName, requestId);
+            log.info("Received POST request from {} (request_id {})", "127.0.0.1", requestId);
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            log.info("Responding to request (makeRefund) from {} (request_id {})", "techlab-paypal-develop", requestId);
+            log.info("Answered to POST request from {} with code: {} (request_id {})", "127.0.0.1", "200", requestId);
             return ResponseEntity.status( HttpStatus.CREATED).body(response.body());
         } catch (IOException | InterruptedException e) {
-            log.error("Error response (makeRefund) (code: {}) received from {} (request_id {})", e.getCause(), serviceName, requestId);
+            log.error("Answered to POST request from {} with code: {} (request_id {})", "127.0.0.1", "500", requestId);
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error making PayPal API request");
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("serviceName", "techlab_paypal");
+            errorResponse.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse.toString());
         }
     }
 

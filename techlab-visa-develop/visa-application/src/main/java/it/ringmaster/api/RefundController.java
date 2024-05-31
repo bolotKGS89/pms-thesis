@@ -28,7 +28,7 @@ public class RefundController {
                                               @RequestHeader(value = "Service-Name", required = false) String serviceName,
                                               @RequestBody RefundVisaDto refundVisaDto) throws StripeException {
         try {
-            log.info("Receiving request (refund) from {} (request_id {})", serviceName, xRequestId);
+            log.info("Received POST request from {} (request_id {})", "127.0.0.1", xRequestId);
             Refund refund = service.create(refundVisaDto);
             ResponseDto responseDto = new ResponseDto();
             responseDto.setId(refund.getId());
@@ -37,10 +37,10 @@ public class RefundController {
             responseDto.setCreated(refund.getCreated());
             responseDto.setCurrency(refund.getCurrency());
             responseDto.setDescription(refund.getDescription());
-            log.info("Responding to request (refund) from {} (request_id {})", "techlab-visa-develop", xRequestId);
+            log.info("Answered to POST request from {} with code: {} (request_id {})", "127.0.0.1", "200", xRequestId);
             return new ResponseEntity<>(responseDto, HttpStatus.ACCEPTED);
         } catch (StripeException e) {
-            log.error("Error response (refund) (code: {}) received from {} (request_id {})", e.getCause(), serviceName, xRequestId);
+            log.error("Answered to POST request from {} with code: {} (request_id {})", "127.0.0.1", "500", xRequestId);
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
