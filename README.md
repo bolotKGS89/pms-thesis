@@ -43,6 +43,16 @@ Each payment gateway has a set of endpoints which provide a certain functionalit
 - **GET /amazon/get-refund/{refundId}** - Get refund by refundId
 
 #### Instructions to Use
-First you need to go root folder of the project and where .yaml file is located
+First you need to go root folder of the project and where .yaml file is located. You should have docker engine installed
 - **SUDO DOCKER COMPOSE UP -D** - used to start all instances of docker 
 - **SUDO DOCKER COMPOSE DOWN** - used to stop all instances of docker
+
+#### MSA
+ - **Visa** - used as gateway to send payments to visa. Based on stripe API
+ - **Paypal** - used as gateway to send payments to Paypal. Connected to Paypal Sandbox mode to test payments.
+ - **Amazon** - used as gateway to send payments to Amazon. Connected to Amazon Sandbox mode to test payments.
+ - **PMS** - API gateway. Forwards payments from e-wallet from Paypal, Visa, Amazon based on type of request
+ - **UGO** - User management system. Used to store, retrieve and create data related to player. Also creates e-wallet.
+ - **E-wallet** - Wallet. Used to store, retrieve and create data related to wallet.
+ - **Logstash** - centralized logging engine used to aggregate logs from all microservices.
+ - **FE** - front-end part used to main entry point for all application.
